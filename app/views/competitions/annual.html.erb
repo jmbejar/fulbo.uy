@@ -1,13 +1,15 @@
 <% content_for :title, "#{t(".title")} · #{@competition.name}" %>
-<%= render "shared/competition_header", competition: @competition, season: @season %>
+<% stage = @season.current_stage %>
+<%= render "shared/competition_header", competition: @competition, season: @season, stage: stage %>
+<%= render "shared/view_switch", active: :standings,
+      matches_path: competition_stage_path(@competition, stage),
+      standings_path: annual_competition_path(@competition) %>
 
-<%= turbo_frame_tag "competition" do %>
+<section aria-labelledby="standings-heading" class="mt-6 max-w-[46rem]">
+  <h2 id="standings-heading" class="mb-3 text-[1.35em] font-bold"><%= t("stages.show.standings") %></h2>
   <%= render "shared/tabs", competition: @competition, season: @season, active: "annual" %>
-
-  <h2 class="mb-1 text-lg font-semibold"><%= t(".title") %></h2>
-  <p class="mb-3 text-sm text-slate-600"><%= t(".description", stages: @season.annual_stages.map(&:name).to_sentence) %></p>
-  <% cache [ @season, :annual, @season.stages.maximum(:updated_at) ] do %>
-    <%= render "standings/table", table: @table, zones: @season.annual_zones %>
+  <p class="mb-2 text-ink2"><%= t(".description", stages: @season.annual_stages.map(&:name).to_sentence) %></p>
+  <% cache [ @season, :annual, @season.stages.maximum(:updated_at), @crests_version ] do %>
+    <%= render "standings/table", rows: @table.to_a, zones: @season.annual_zones, caption: t(".title") %>
   <% end %>
-  <%= zone_legend(@season.annual_zones) %>
-<% end %>
+</section>

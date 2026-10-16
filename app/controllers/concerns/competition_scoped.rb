@@ -7,9 +7,13 @@ module CompetitionScoped
 
   private
 
+  # The home page shows the top competition.
   def set_competition
-    @competition = Competition.find_by!(slug: params[:competition_slug] || params[:slug])
+    slug = params[:competition_slug] || params[:slug]
+    @competition = slug ? Competition.find_by!(slug: slug) : Competition.by_tier.first!
     @season = @competition.current_season
+    # Cached tables show crests, which the AUF sync learns after the fact.
+    @crests_version = Team.maximum(:updated_at)
   end
 
   # The round shown in the fixtures: the requested one, or the next round

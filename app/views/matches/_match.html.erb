@@ -1,21 +1,37 @@
-<%# locals: (match:, show_competition: false) %>
-<li class="flex items-center gap-3 px-3 py-2 text-sm">
-  <div class="w-28 shrink-0 text-xs text-slate-500">
-    <% if show_competition %>
-      <div class="font-medium text-slate-700"><%= match.stage.season.competition.name %></div>
+<%# locals: (match:) %>
+<% note = match_note(match) %>
+<% sides = { home: match.home_team, away: match.away_team } %>
+<% score_color = match.live? ? "text-live" : "text-ink" %>
+<div class="flex flex-col gap-1.5 border-b border-line2 px-2 py-3 <%= "bg-live-soft" if match.live? %>">
+  <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.9em]">
+    <%= match_status(match) %>
+    <% if note %><span class="text-ink2"><%= note %></span><% end %>
+  </p>
+
+  <%# Phones: one team per line, its goals on the right. %>
+  <div class="flex flex-col gap-1.5 md:hidden">
+    <% sides.each do |side, team| %>
+      <%= link_to team_path(team), class: "flex items-center gap-3 text-ink no-underline hover:underline" do %>
+        <%= team_crest(team) %>
+        <span class="min-w-0 flex-1 text-[1.15em] leading-tight break-words <%= "font-bold" if match_winner?(match, side) %>"><%= team.name %></span>
+        <% if match.score? %>
+          <span class="text-[1.4em] font-bold tabular-nums <%= score_color %>"><%= side == :home ? match.home_goals : match.away_goals %></span>
+        <% end %>
+      <% end %>
     <% end %>
-    <%= match_date(match) %>
   </div>
-  <div class="flex flex-1 items-center justify-end text-right">
-    <%= link_to match.home_team.display_name, team_path(match.home_team), class: "hover:underline", data: { turbo_frame: "_top" } %>
-  </div>
-  <div class="w-20 shrink-0 text-center font-bold tabular-nums <%= "text-slate-400 font-normal" unless match.score? || match.walkover? %>" title="<%= match_score_title(match) %>">
-    <%= match_score(match) %>
-  </div>
-  <div class="flex flex-1 items-center">
-    <%= link_to match.away_team.display_name, team_path(match.away_team), class: "hover:underline", data: { turbo_frame: "_top" } %>
-  </div>
-  <% unless match.finished? || match.scheduled? || match.walkover? %>
-    <span class="rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-800"><%= t("matches.status.#{match.status}") %></span>
-  <% end %>
-</li>
+
+  <p class="hidden grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 md:grid">
+    <%= link_to team_path(match.home_team), class: "flex items-center justify-end gap-2.5 text-right text-ink no-underline hover:underline" do %>
+      <span class="min-w-0 text-[1.15em] leading-tight break-words <%= "font-bold" if match_winner?(match, :home) %>"><%= match.home_team.name %></span>
+      <%= team_crest(match.home_team) %>
+    <% end %>
+    <span class="min-w-[3.4em] text-center text-[1.45em] font-bold whitespace-nowrap tabular-nums <%= score_color %>">
+      <%= match_score(match) %>
+    </span>
+    <%= link_to team_path(match.away_team), class: "flex items-center gap-2.5 text-ink no-underline hover:underline" do %>
+      <%= team_crest(match.away_team) %>
+      <span class="min-w-0 text-[1.15em] leading-tight break-words <%= "font-bold" if match_winner?(match, :away) %>"><%= match.away_team.name %></span>
+    <% end %>
+  </p>
+</div>

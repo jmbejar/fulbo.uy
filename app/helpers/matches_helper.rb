@@ -1,24 +1,60 @@
 module MatchesHelper
+  RELATIVE_DAYS = { -1 => "yesterday", 0 => "today", 1 => "tomorrow" }.freeze
+
+  # "2 – 1", or "vs" before kickoff.
   def match_score(match)
-    return t("matches.walkover_short") if match.walkover?
-    return t("matches.vs") unless match.score?
+    return "#{match.home_goals} – #{match.away_goals}" if match.score?
 
-    score = "#{match.home_goals} - #{match.away_goals}"
-    score += " (#{match.home_penalties} - #{match.away_penalties} #{t('matches.penalties_short')})" if match.penalties?
-    score
+    match.walkover? ? "–" : t("matches.vs")
   end
 
-  def match_score_title(match)
-    return unless match.walkover?
+  def match_winner?(match, side)
+    return match.walkover_winner == side.to_s if match.walkover?
+    return false unless match.finished? && match.score?
 
-    winner = match.walkover_winner_home? ? match.home_team : match.away_team
-    t("matches.walkover_winner", team: winner.display_name)
+    outcome = match.home_goals <=> match.away_goals
+    outcome = match.home_penalties <=> match.away_penalties if outcome.zero? && match.penalties?
+    side == :home ? outcome.positive? : outcome.negative?
   end
 
-  def match_date(match)
-    return t("matches.to_be_defined") unless match.kicks_off_at
+  # Words, not abbreviations: a badge for what needs attention, plain text otherwise.
+  def match_status(match)
+    case match.status
+    when "live"
+      tag.span t("matches.status.live"), class: "rounded-md bg-live px-2 py-px font-bold text-on-live"
+    when "postponed", "suspended"
+      tag.span t("matches.status.#{match.status}"), class: "rounded-md bg-badge px-2 py-px font-bold text-ink"
+    when "finished", "walkover"
+      tag.span t("matches.status.finished"), class: "font-bold text-ink2"
+    else
+      tag.span match_time(match), class: "font-bold"
+    end
+  end
 
-    l(match.kicks_off_at, format: :match)
+  # AUF gives only the date until the time is set; it arrives as midnight.
+  def match_time(match)
+    time_known = match.kicks_off_at && match.kicks_off_at != match.kicks_off_at.beginning_of_day
+    time_known ? t("matches.time", time: l(match.kicks_off_at, format: :time)) : t("matches.time_to_be_defined")
+  end
+
+  def match_note(match)
+    if match.walkover?
+      winner = match.walkover_winner_home? ? match.home_team : match.away_team
+      t("matches.walkover_winner", team: winner.name)
+    elsif match.penalties?
+      home_won = match.home_penalties > match.away_penalties
+      t("matches.penalties_winner", team: (home_won ? match.home_team : match.away_team).name,
+        winner: [ match.home_penalties, match.away_penalties ].max, loser: [ match.home_penalties, match.away_penalties ].min)
+    end
+  end
+
+  # "Sábado 10 de octubre", or "Hoy, jueves 15 de octubre" around today.
+  def match_day(date)
+    return t("matches.date_to_be_defined") unless date
+
+    day = l(date, format: :day)
+    relative = RELATIVE_DAYS[(date - Date.current).to_i]
+    relative ? "#{t("matches.#{relative}")}, #{day}" : day.upcase_first
   end
 
   def round_label(round)

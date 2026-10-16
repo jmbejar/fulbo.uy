@@ -1,25 +1,28 @@
 <%# locals: (competition:, stage:, round:) %>
-<%= turbo_frame_tag "fixtures" do %>
-  <% if round %>
-    <% rounds = stage.rounds %>
-    <% index = rounds.index(round) %>
-    <div class="flex items-center justify-between rounded-t-lg border border-slate-200 bg-white px-3 py-2 text-sm">
-      <% if index.positive? %>
-        <%= link_to t("stages.show.previous_round"), competition_stage_path(competition, stage, round: rounds[index - 1]), class: "text-sky-700 hover:underline" %>
-      <% else %>
-        <span></span>
-      <% end %>
-      <span class="font-semibold"><%= round_label(round) %></span>
-      <% if rounds[index + 1] %>
-        <%= link_to t("stages.show.next_round"), competition_stage_path(competition, stage, round: rounds[index + 1]), class: "text-sky-700 hover:underline" %>
-      <% else %>
-        <span></span>
-      <% end %>
-    </div>
-    <ul class="divide-y divide-slate-100 rounded-b-lg border border-t-0 border-slate-200 bg-white">
-      <%= render partial: "matches/match", collection: stage.matches.where(round: round).includes(:home_team, :away_team).chronological, as: :match %>
-    </ul>
-  <% else %>
-    <p class="text-sm text-slate-500"><%= t("stages.show.no_matches") %></p>
+<% if round %>
+  <% rounds = stage.rounds %>
+  <% index = rounds.index(round) %>
+  <% previous_round, next_round = (rounds[index - 1] if index.positive?), rounds[index + 1] %>
+  <% arrow = "flex size-[2.6em] shrink-0 items-center justify-center rounded-lg border-2 border-line bg-bg text-[1.15em] leading-none font-bold no-underline" %>
+  <div class="flex items-center gap-2.5 rounded-[0.6rem] border border-line2 bg-soft p-2">
+    <% if previous_round %>
+      <%= link_to "‹", competition_stage_path(competition, stage, round: previous_round), class: "#{arrow} text-ink", aria: { label: t("stages.show.go_to", round: round_label(previous_round)) } %>
+    <% else %>
+      <span class="<%= arrow %> text-line" aria-hidden="true">‹</span>
+    <% end %>
+    <strong class="flex-1 text-center text-[1.25em]"><%= round_label(round) %></strong>
+    <% if next_round %>
+      <%= link_to "›", competition_stage_path(competition, stage, round: next_round), class: "#{arrow} text-ink", aria: { label: t("stages.show.go_to", round: round_label(next_round)) } %>
+    <% else %>
+      <span class="<%= arrow %> text-line" aria-hidden="true">›</span>
+    <% end %>
+  </div>
+
+  <% matches = stage.matches.where(round: round).includes(:home_team, :away_team).chronological %>
+  <% matches.group_by { |match| match.kicks_off_at&.to_date }.sort_by { |date, _| date || Date.new(9999) }.each do |date, day_matches| %>
+    <h3 class="mt-5 mb-1 border-b-2 border-line pb-1.5 font-bold <%= "text-accent" if date == Date.current %>"><%= match_day(date) %></h3>
+    <%= render partial: "matches/match", collection: day_matches, as: :match %>
   <% end %>
+<% else %>
+  <p class="text-ink2"><%= t("stages.show.no_matches") %></p>
 <% end %>

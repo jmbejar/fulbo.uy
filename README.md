@@ -39,7 +39,7 @@ See `NOTES.md` for the research on each tournament's format, the open questions 
   - AUF page per competition, AUF tournament id per stage or group.
   - Tenfield season slug per stage or season.
   - Wikipedia page per stage or season.
-  - AUF club slug per team, learned automatically.
+  - AUF club slug and crest per team, learned automatically.
 - Team names are matched exactly (ignoring case and accents) against names and `TeamAlias`.
   - Unknown names are logged in the run summary. Add a `TeamAlias` for them.
 

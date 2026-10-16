@@ -1,0 +1,5 @@
+class AddCrestUrlToTeams < ActiveRecord::Migration[8.0]
+  def change
+    add_column :teams, :crest_url, :string
+  end
+end

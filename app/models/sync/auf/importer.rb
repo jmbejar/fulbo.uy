@@ -7,7 +7,8 @@ module Sync
     #
     # Mapping: Competition ExternalId "auf" = page path ("liga-auf-uruguaya"),
     # Stage/Group ExternalId "auf" = tournament id, Team ExternalId "auf" =
-    # club slug (learned automatically when the club's name matches).
+    # club slug (learned automatically when the club's name matches). Team
+    # crests are taken from the same links.
     class Importer
       SOURCE = "auf"
       BASE_URL = "https://www.auf.org.uy/"
@@ -55,6 +56,8 @@ module Sync
         home = teams.resolve(fixture.home_name, external_id: fixture.home_slug)
         away = teams.resolve(fixture.away_name, external_id: fixture.away_slug)
         return @summary.unmatched << "#{tournament.id} #{fixture.home_name} v #{fixture.away_name}" unless home && away && home != away
+        learn_crest(home, fixture.home_crest)
+        learn_crest(away, fixture.away_crest)
 
         key = [ tournament.id, fixture.home_slug, fixture.away_slug ].join(":")
         match = find_or_build(key, stage, home, away)
@@ -80,6 +83,10 @@ module Sync
         ExternalId.find_by(source: SOURCE, external_id: key, identifiable_type: "Match")&.identifiable ||
           stage.matches.where(home_team: home, away_team: away).where.missing(:external_ids).first ||
           stage.matches.build
+      end
+
+      def learn_crest(team, url)
+        team.update!(crest_url: url) if url && team.crest_url != url
       end
 
       # Group stages list their teams from memberships, which AUF implies.

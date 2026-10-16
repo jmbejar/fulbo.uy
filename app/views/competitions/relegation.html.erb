@@ -1,46 +1,14 @@
 <% content_for :title, "#{t(".title")} · #{@competition.name}" %>
-<%= render "shared/competition_header", competition: @competition, season: @season %>
+<% stage = @season.current_stage %>
+<%= render "shared/competition_header", competition: @competition, season: @season, stage: stage %>
+<%= render "shared/view_switch", active: :standings,
+      matches_path: competition_stage_path(@competition, stage),
+      standings_path: relegation_competition_path(@competition) %>
 
-<%= turbo_frame_tag "competition" do %>
+<section aria-labelledby="standings-heading" class="mt-6 max-w-[46rem]">
+  <h2 id="standings-heading" class="mb-3 text-[1.35em] font-bold"><%= t("stages.show.standings") %></h2>
   <%= render "shared/tabs", competition: @competition, season: @season, active: "relegation" %>
-
   <% years = ((@season.year - @season.relegation_years + 1)..@season.year).to_a %>
-  <h2 class="mb-1 text-lg font-semibold"><%= t(".title") %></h2>
-  <p class="mb-3 text-sm text-slate-600"><%= t(".description", years: years.to_sentence) %></p>
-
-  <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
-    <table class="w-full text-sm tabular-nums">
-      <thead class="bg-slate-100 text-xs uppercase text-slate-600">
-        <tr>
-          <th class="px-2 py-2 text-left">#</th>
-          <th class="px-2 py-2 text-left"><%= t("standings.team") %></th>
-          <% years[0...-1].each do |year| %>
-            <th class="px-2 py-2 text-center"><%= year %></th>
-          <% end %>
-          <th class="px-2 py-2 text-center"><%= years.last %></th>
-          <th class="px-2 py-2 text-center"><%= t("standings.points") %></th>
-          <th class="px-2 py-2 text-center"><%= t("standings.played") %></th>
-          <th class="px-2 py-2 text-center"><%= t(".average") %></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @rows.each.with_index(1) do |row, position| %>
-          <tr class="border-t border-slate-100 <%= zone_row_class(zone_at(position, @season.relegation_zones)) %>">
-            <td class="px-2 py-1.5 text-slate-500"><%= position %></td>
-            <td class="px-2 py-1.5 font-medium">
-              <%= link_to row.team.name, team_path(row.team), class: "hover:underline", data: { turbo_frame: "_top" } %>
-            </td>
-            <% row.previous.each_value do |record| %>
-              <td class="px-2 py-1.5 text-center"><%= record ? record.points : "–" %></td>
-            <% end %>
-            <td class="px-2 py-1.5 text-center"><%= row.current_points %></td>
-            <td class="px-2 py-1.5 text-center"><%= row.points %></td>
-            <td class="px-2 py-1.5 text-center"><%= row.played %></td>
-            <td class="px-2 py-1.5 text-center font-bold"><%= number_with_precision(row.average, precision: 3) %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-  <%= zone_legend(@season.relegation_zones) %>
-<% end %>
+  <p class="mb-2 text-ink2"><%= t(".description", years: years.to_sentence) %></p>
+  <%= render "standings/table", rows: @rows, zones: @season.relegation_zones, caption: t(".title"), average: true %>
+</section>

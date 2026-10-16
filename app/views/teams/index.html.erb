@@ -1,0 +1,18 @@
+<% content_for :title, t(".title") %>
+<h1 class="sr-only"><%= t(".title") %></h1>
+<%= turbo_frame_tag "team_search" do %>
+  <% if @teams.any? %>
+    <ul class="flex flex-col rounded-lg border-2 border-line bg-bg p-1 text-ink shadow-[0_0.6em_1.6em_rgba(0,0,0,.2)]">
+      <% @teams.each do |team| %>
+        <li>
+          <%= link_to team_path(team), class: "flex min-h-[2.8em] items-center gap-3 rounded-md px-2.5 text-ink no-underline hover:bg-soft" do %>
+            <span class="flex-1 font-bold"><%= team.name %></span>
+            <span class="text-[0.85em] text-ink2"><%= team.seasons.max_by(&:year)&.competition&.name %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% elsif @query.present? %>
+    <p class="rounded-lg border-2 border-line bg-bg p-3 text-ink2"><%= t(".no_results") %></p>
+  <% end %>
+<% end %>

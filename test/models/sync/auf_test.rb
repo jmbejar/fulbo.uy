@@ -48,6 +48,15 @@ class Sync::AufTest < ActiveSupport::TestCase
     assert_equal @defensor, ExternalId.find_by!(source: "auf", external_id: "defensor-sporting-club").identifiable
   end
 
+  test "learns team crests from the club links" do
+    first = Sync::Auf::Page.parse(@body).first.fixtures.first
+    assert_equal [ "https://www.auf.org.uy/x.png", "https://www.auf.org.uy/y.png" ], [ first.home_crest, first.away_crest ]
+
+    run_import
+
+    assert_match %r{\Ahttps://www.auf.org.uy/[xy].png\z}, @penarol.reload.crest_url
+  end
+
   test "a second run with the same data changes nothing and keeps the stage cache" do
     run_import
     stamp = @stage.reload.updated_at

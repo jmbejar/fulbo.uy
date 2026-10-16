@@ -4,20 +4,34 @@ es:
     tagline: "Resultados y tablas del fútbol uruguayo"
     sources: "Datos de"
     and: "y"
+  date:
+    # Uruguayan spelling.
+    month_names: [~, enero, febrero, marzo, abril, mayo, junio, julio, agosto, setiembre, octubre, noviembre, diciembre]
+    formats:
+      day: "%A %-d de %B"
   time:
     formats:
-      match: "%a %d/%m · %H:%M"
-  home:
-    index:
-      title: "Fútbol uruguayo"
-      latest_results: "Últimos resultados"
-      upcoming: "Próximos partidos"
-      leader: "Puntero del %{stage}"
-      see_standings: "Ver tabla"
-      no_matches: "No hay partidos para mostrar."
+      time: "%H:%M"
+  layouts:
+    application:
+      home: "FulboUY, ir a la página principal"
+      competitions: "Torneos"
+      text_size: "Tamaño de letra"
+      size_small: "Letra normal"
+      size_medium: "Letra grande"
+      size_large: "Letra muy grande"
+      dark_mode: "Modo oscuro"
   competitions:
+    live:
+      one: "En juego: 1 partido"
+      other: "En juego: %{count} partidos"
+    view_switch:
+      label: "Sección"
+      matches: "Partidos"
+      standings: "Tabla"
     tabs:
-      annual: "Tabla Anual"
+      label: "Elegir tabla"
+      annual: "Anual"
       relegation: "Descenso"
     annual:
       title: "Tabla Anual"
@@ -25,51 +39,57 @@ es:
     relegation:
       title: "Tabla del descenso"
       description: "Promedio de puntos por partido de las temporadas %{years}."
-      average: "Prom."
-      current_season: "%{year}"
   stages:
     show:
-      standings: "Posiciones"
-      fixtures: "Fixture"
-      previous_round: "‹ Anterior"
-      next_round: "Siguiente ›"
+      standings: "Tabla de posiciones"
+      matches: "Partidos"
+      stage_matches: "Partidos · %{stage}"
+      go_to: "Ir a %{round}"
       no_matches: "Todavía no hay partidos cargados para esta fase."
   standings:
-    position: "Pos"
+    position: "Pos."
     team: "Equipo"
-    played: "PJ"
-    won: "G"
-    drawn: "E"
-    lost: "P"
-    goals_for: "GF"
-    goals_against: "GC"
-    goal_difference: "DG"
-    points: "Pts"
-    adjustment_note: "Incluye %{points} pts por sanción."
+    played: "Jugados"
+    goal_difference: "Dif. de gol"
+    points: "Puntos"
+    average: "Promedio"
+    short:
+      played: "Jug."
+      goal_difference: "Dif."
+    adjustment_note: "Incluye %{points} puntos por sanción."
   zones:
     champion: "Campeón de la fase"
     libertadores: "Copa Libertadores"
-    final: "Final"
-    playoff: "Playoff"
-    promotion: "Ascenso"
-    promotion_playoff: "Reclasificatorio / repechaje de ascenso"
-    relegation_playoff: "Repechaje por la permanencia"
-    relegation: "Descenso"
+    final: "Juega la final"
+    playoff: "Pasa a la siguiente fase"
+    promotion: "Ascenso directo"
+    promotion_playoff: "Juegan por el ascenso"
+    relegation_playoff: "Juegan por la permanencia"
+    relegation: "Zona de descenso"
+    rest: "Resto de los equipos"
+    range: "%{from} a %{to}"
   matches:
     vs: "vs"
     round: "Fecha %{number}"
-    penalties_short: "pen."
-    to_be_defined: "A confirmar"
-    walkover_short: "w/o"
+    time: "%{time} h"
+    time_to_be_defined: "Hora a confirmar"
+    date_to_be_defined: "Fecha a confirmar"
+    today: "Hoy"
+    yesterday: "Ayer"
+    tomorrow: "Mañana"
     walkover_winner: "Ganó %{team} por walkover"
+    penalties_winner: "%{team} ganó %{winner} a %{loser} por penales"
     status:
-      scheduled: "Programado"
       live: "En juego"
-      finished: "Final"
+      finished: "Terminado"
       suspended: "Suspendido"
       postponed: "Postergado"
-      walkover: "Walkover"
   teams:
+    search:
+      label: "Buscar equipo"
+    index:
+      title: "Buscar equipo"
+      no_results: "No encontramos ese equipo."
     show:
       matches: "Partidos"
       no_matches: "No hay partidos para este equipo."
