@@ -58,6 +58,7 @@ es:
     adjustment_note: "Incluye %{points} puntos por sanción."
   zones:
     champion: "Campeón de la fase"
+    championship_final: "Final del Campeonato Uruguayo y Copa Libertadores"
     libertadores: "Copa Libertadores"
     sudamericana: "Copa Sudamericana"
     final: "Juega la final"

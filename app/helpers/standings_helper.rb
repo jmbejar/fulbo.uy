@@ -1,6 +1,6 @@
 module StandingsHelper
   ZONE_COLORS = {
-    "champion" => "bg-zone1", "libertadores" => "bg-zone1", "promotion" => "bg-zone1", "final" => "bg-zone1", "next_round" => "bg-zone1",
+    "champion" => "bg-zone1", "championship_final" => "bg-zone1", "libertadores" => "bg-zone1", "promotion" => "bg-zone1", "final" => "bg-zone1", "next_round" => "bg-zone1",
     "playoff" => "bg-zone2", "sudamericana" => "bg-zone2", "promotion_playoff" => "bg-zone2", "best_third" => "bg-zone2",
     "relegation_playoff" => "bg-zone3", "relegation" => "bg-zone3"
   }.freeze

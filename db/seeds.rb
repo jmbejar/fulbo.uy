@@ -130,7 +130,7 @@ ActiveRecord::Base.transaction do
     official_name: "Torneo Uruguayo Juan Carlos de Lima",
     current: true,
     relegation_years: 2,
-    annual_zones: [ zone(1, 3, "libertadores"), zone(4, 7, "sudamericana") ],
+    annual_zones: [ zone(1, 1, "championship_final"), zone(2, 3, "libertadores"), zone(4, 7, "sudamericana") ],
     relegation_zones: [ zone(14, 16, "relegation") ]
   )
   teams = PRIMERA_TEAMS.map { |args| upsert_team(*args) }
