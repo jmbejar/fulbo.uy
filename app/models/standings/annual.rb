@@ -9,7 +9,7 @@ module Standings
       stages = @season.annual_stages
       Table.new(
         teams: @season.teams,
-        matches: Match.finished.where(stage: stages).includes(:home_team, :away_team),
+        matches: Match.decided.where(stage: stages).includes(:home_team, :away_team),
         adjustments: PointsAdjustment.where(stage: stages),
         tiebreakers: stages.first&.tiebreakers || Stage::TIEBREAKERS
       )

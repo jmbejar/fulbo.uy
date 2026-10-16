@@ -1,6 +1,7 @@
 class Competition < ApplicationRecord
   has_many :seasons, -> { order(year: :desc) }, dependent: :destroy
   has_many :historical_records, dependent: :destroy
+  has_many :external_ids, as: :identifiable, dependent: :destroy
 
   validates :name, :slug, :tier, presence: true
   validates :slug, uniqueness: true

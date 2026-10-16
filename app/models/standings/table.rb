@@ -1,11 +1,11 @@
 module Standings
-  # Builds a standings table from finished matches, applying points
+  # Builds a standings table from decided matches, applying points
   # adjustments and ordering ties with the given tiebreakers.
   class Table
     include Enumerable
 
     def self.for_stage(stage, group: nil)
-      matches = stage.matches.finished
+      matches = stage.matches.decided
       matches = matches.where(group: group) if group
       new(
         teams: group ? group.teams : stage.teams,
@@ -41,8 +41,13 @@ module Standings
       @matches.each do |match|
         home = by_team[match.home_team_id] ||= Row.new(match.home_team)
         away = by_team[match.away_team_id] ||= Row.new(match.away_team)
-        home.record(match.home_goals, match.away_goals)
-        away.record(match.away_goals, match.home_goals)
+        if match.walkover?
+          home.record_walkover(match.walkover_winner_home?)
+          away.record_walkover(match.walkover_winner_away?)
+        else
+          home.record(match.home_goals, match.away_goals)
+          away.record(match.away_goals, match.home_goals)
+        end
       end
       @adjustments.each do |adjustment|
         row = by_team[adjustment.team_id]
@@ -82,8 +87,9 @@ module Standings
       @matches.each do |match|
         next unless ids.include?(match.home_team_id) && ids.include?(match.away_team_id)
 
-        if match.home_goals > match.away_goals then points[match.home_team_id] += 3
-        elsif match.home_goals < match.away_goals then points[match.away_team_id] += 3
+        case match.home_outcome
+        when 1 then points[match.home_team_id] += 3
+        when -1 then points[match.away_team_id] += 3
         else
           points[match.home_team_id] += 1
           points[match.away_team_id] += 1

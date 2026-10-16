@@ -4,6 +4,7 @@ class Season < ApplicationRecord
   has_many :participations, dependent: :destroy
   has_many :teams, through: :participations
   has_many :matches, through: :stages
+  has_many :external_ids, as: :identifiable, dependent: :destroy
 
   attribute :annual_zones, default: -> { [] }
   attribute :relegation_zones, default: -> { [] }

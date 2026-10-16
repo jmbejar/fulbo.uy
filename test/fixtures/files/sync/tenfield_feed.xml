@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+	<title>Clausura 2026 &#8211; Estadísticas TF</title>
+	<link>https://estadisticas.tenfield.com.uy</link>
+	<item>
+		<title>Peñarol — Nacional</title>
+		<link>https://estadisticas.tenfield.com.uy/event/penarol-nacional/</link>
+		<pubDate>Sat, 08 Aug 2026 21:30:44 +0000</pubDate>
+	</item>
+	<item>
+		<title>Tiziano Correa</title>
+		<link>https://estadisticas.tenfield.com.uy/player/tiziano-correa/</link>
+		<pubDate>Sat, 08 Aug 2026 20:00:00 +0000</pubDate>
+	</item>
+	<item>
+		<title>Defensor Sporting — Cerro</title>
+		<link>https://estadisticas.tenfield.com.uy/event/defensor-sporting-cerro/</link>
+		<pubDate>Sun, 09 Aug 2026 18:00:00 +0000</pubDate>
+	</item>
+</channel>
+</rss>

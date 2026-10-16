@@ -1,7 +1,10 @@
 # Loads the 2026 structure of the Uruguayan tournaments (competitions,
-# stages, groups, teams and known points adjustments). In development it
-# also generates SAMPLE matches with random results so pages look populated;
-# they are not real results and will be replaced by data ingestion.
+# stages, groups, teams and known points adjustments) and maps them to the
+# external sources the sync jobs read (see app/models/sync.rb).
+#
+# With SAMPLE_MATCHES=1 it also generates SAMPLE matches with random results,
+# for working offline. Don't combine them with the sync jobs: the synced
+# fixture would be added on top of them.
 #
 # Sources for the structure: see NOTES.md.
 
@@ -17,11 +20,11 @@ PRIMERA_TEAMS = [
   [ "Cerro", "Cerro", "Montevideo" ],
   [ "Cerro Largo", "Cerro Largo", "Melo" ],
   [ "Danubio", "Danubio", "Montevideo" ],
-  [ "Defensor Sporting", "Defensor", "Montevideo", [ "Defensor" ] ],
-  [ "Deportivo Maldonado", "Dep. Maldonado", "Maldonado" ],
+  [ "Defensor Sporting", "Defensor", "Montevideo", [ "Defensor", "Def. Sporting" ] ],
+  [ "Deportivo Maldonado", "Dep. Maldonado", "Maldonado", [ "D. Maldonado" ] ],
   [ "Juventud", "Juventud", "Las Piedras", [ "Juventud de Las Piedras" ] ],
   [ "Liverpool", "Liverpool", "Montevideo" ],
-  [ "Montevideo City Torque", "City Torque", "Montevideo", [ "Torque", "MCT" ] ],
+  [ "Montevideo City Torque", "City Torque", "Montevideo", [ "Torque", "MCT", "M.C. Torque" ] ],
   [ "Montevideo Wanderers", "Wanderers", "Montevideo", [ "Wanderers" ] ],
   [ "Nacional", "Nacional", "Montevideo", [ "Club Nacional de Football" ] ],
   [ "Peñarol", "Peñarol", "Montevideo", [ "CA Peñarol", "Penarol" ] ],
@@ -32,7 +35,7 @@ PRIMERA_TEAMS = [
 SEGUNDA_TEAMS = [
   [ "Atenas", "Atenas", "San Carlos", [ "Atenas de San Carlos" ] ],
   [ "Cerrito", "Cerrito", "Montevideo" ],
-  [ "Colón", "Colón", "Montevideo" ],
+  [ "Colón", "Colón", "Montevideo", [ "Colón FC" ] ],
   [ "Fénix", "Fénix", "Montevideo" ],
   [ "Huracán", "Huracán", "Montevideo", [ "Huracán FC" ] ],
   [ "La Luz", "La Luz", "Montevideo" ],
@@ -42,9 +45,16 @@ SEGUNDA_TEAMS = [
   [ "Plaza Colonia", "Plaza Colonia", "Colonia del Sacramento" ],
   [ "Rentistas", "Rentistas", "Montevideo" ],
   [ "River Plate", "River Plate", "Montevideo", [ "River Plate Montevideo" ] ],
-  [ "Tacuarembó", "Tacuarembó", "Tacuarembó" ],
+  [ "Tacuarembó", "Tacuarembó", "Tacuarembó", [ "Tacuarembó FC" ] ],
   [ "Uruguay Montevideo", "Uruguay Mvdeo.", "Montevideo" ]
 ].freeze
+
+# Spellings used by the sources, when they differ from ours.
+AMATEUR_ALIASES = {
+  "Frontera Rivera" => [ "Frontera Rivera Renegades" ],
+  "Salto" => [ "Salto FC" ],
+  "Bella Italia" => [ "Sportivo Bella Italia" ]
+}.freeze
 
 AMATEUR_SERIES = {
   "Serie A" => [ "Frontera Rivera", "Rocha", "Deutscher", "Bella Vista", "Alto Perú", "Mar de Fondo",
@@ -102,7 +112,14 @@ def goals(rng) = [ 0, 0, 1, 1, 1, 2, 2, 3, 4 ].sample(random: rng)
 
 def zone(from, to, key) = { "from" => from, "to" => to, "zone" => key }
 
-sample_matches = Rails.env.development?
+# Maps a record to its id in an external source (see Sync).
+def link!(record, source, external_id)
+  ExternalId.find_or_create_by!(source: source, external_id: external_id, identifiable_type: record.class.name) do |link|
+    link.identifiable = record
+  end
+end
+
+sample_matches = ENV["SAMPLE_MATCHES"].present?
 rng = Random.new(SEASON_YEAR)
 
 ActiveRecord::Base.transaction do
@@ -132,6 +149,18 @@ ActiveRecord::Base.transaction do
   serie_a = intermedio.groups.find_or_create_by!(name: "Serie A") { |g| g.position = 1 }
   serie_b = intermedio.groups.find_or_create_by!(name: "Serie B") { |g| g.position = 2 }
 
+  link!(primera, "auf", "liga-auf-uruguaya")
+  link!(apertura, "auf", "c1445")
+  link!(serie_a, "auf", "c1513")
+  link!(serie_b, "auf", "c1514")
+  link!(clausura, "auf", "c1529")
+  link!(apertura, "tenfield", "apertura-2026")
+  link!(clausura, "tenfield", "clausura-2026")
+  link!(apertura, "wikipedia", "Torneo Apertura 2026 (Uruguay)")
+  link!(clausura, "wikipedia", "Torneo Clausura 2026 (Uruguay)")
+
+  # Once synced, Wikipedia owns the Clausura sanctions; this keeps the known
+  # one available offline.
   penarol = Team.find_by!(slug: "penarol")
   clausura.points_adjustments.find_or_create_by!(team: penarol) do |adjustment|
     adjustment.points = -1
@@ -166,11 +195,20 @@ ActiveRecord::Base.transaction do
                       zones: [ zone(1, 1, "final") ])
   regular = season.stages.find_or_initialize_by(slug: "regular")
   regular.update!(name: "Fase regular", position: 2, format: :round_robin, counts_for_annual: true, current: true)
+  competencia_groups = [ "Serie A", "Serie B" ].each_with_index.map do |name, i|
+    competencia.groups.find_or_create_by!(name: name) { |g| g.position = i + 1 }
+  end
+
+  link!(segunda, "auf", "segunda-division-profesional")
+  link!(competencia_groups[0], "auf", "c1453")
+  link!(competencia_groups[1], "auf", "c1454")
+  link!(regular, "auf", "c1500")
+  link!(season, "tenfield", "lapro-anual-2026")
+  link!(season, "wikipedia", "Campeonato Uruguayo de Segunda División 2026")
 
   if sample_matches
     shuffled = teams.shuffle(random: rng)
-    [ shuffled.first(7), shuffled.last(7) ].each_with_index do |group_teams, i|
-      group = competencia.groups.find_or_create_by!(name: "Grupo #{i + 1}") { |g| g.position = i + 1 }
+    [ shuffled.first(7), shuffled.last(7) ].zip(competencia_groups).each do |group_teams, group|
       group_teams.each { |team| group.group_memberships.find_or_create_by!(team: team) }
       schedule!(competencia, round_robin(group_teams), starts_on: Date.new(2026, 3, 14), group: group, rng: rng)
     end
@@ -188,9 +226,14 @@ ActiveRecord::Base.transaction do
   final.update!(name: "Torneo Final", position: 2, format: :round_robin, current: true,
                 zones: [ zone(1, 1, "promotion"), zone(2, 2, "promotion_playoff") ])
 
+  link!(amateur, "auf", "primera-divisional-c")
+  link!(final, "auf", "c1527")
+  link!(season, "wikipedia", "Campeonato Uruguayo de Primera Divisional C 2026")
+
   AMATEUR_SERIES.each_with_index do |(series, names), i|
     group = inicial.groups.find_or_create_by!(name: series) { |g| g.position = i + 1 }
-    group_teams = names.map { |name| upsert_team(name, name, nil) }
+    link!(group, "auf", { "Serie A" => "c1479", "Serie B" => "c1480", "Serie C" => "c1478" }.fetch(series))
+    group_teams = names.map { |name| upsert_team(name, name, nil, AMATEUR_ALIASES.fetch(name, [])) }
     group_teams.each do |team|
       season.participations.find_or_create_by!(team: team)
       group.group_memberships.find_or_create_by!(team: team)

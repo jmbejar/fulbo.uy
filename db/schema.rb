@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_16_003441) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_16_015337) do
   create_table "competitions", force: :cascade do |t|
     t.string "name", null: false
     t.string "slug", null: false
@@ -63,6 +63,22 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_16_003441) do
     t.index ["team_id"], name: "index_historical_records_on_team_id"
   end
 
+  create_table "match_reports", force: :cascade do |t|
+    t.integer "match_id", null: false
+    t.string "source", null: false
+    t.integer "home_goals"
+    t.integer "away_goals"
+    t.integer "home_penalties"
+    t.integer "away_penalties"
+    t.string "walkover_winner"
+    t.boolean "postponed", default: false, null: false
+    t.datetime "reported_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id", "source"], name: "index_match_reports_on_match_id_and_source", unique: true
+    t.index ["match_id"], name: "index_match_reports_on_match_id"
+  end
+
   create_table "matches", force: :cascade do |t|
     t.integer "stage_id", null: false
     t.integer "group_id"
@@ -77,6 +93,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_16_003441) do
     t.string "status", default: "scheduled", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "walkover_winner"
     t.index ["away_team_id"], name: "index_matches_on_away_team_id"
     t.index ["group_id"], name: "index_matches_on_group_id"
     t.index ["home_team_id"], name: "index_matches_on_home_team_id"
@@ -159,6 +176,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_16_003441) do
   add_foreign_key "groups", "stages"
   add_foreign_key "historical_records", "competitions"
   add_foreign_key "historical_records", "teams"
+  add_foreign_key "match_reports", "matches"
   add_foreign_key "matches", "groups"
   add_foreign_key "matches", "stages"
   add_foreign_key "matches", "teams", column: "away_team_id"

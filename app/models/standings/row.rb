@@ -18,6 +18,12 @@ module Standings
       end
     end
 
+    # A walkover counts as played and won/lost, without goals.
+    def record_walkover(won)
+      self.played += 1
+      won ? self.won += 1 : self.lost += 1
+    end
+
     def points = won * 3 + drawn + adjustment
 
     def goal_difference = goals_for - goals_against

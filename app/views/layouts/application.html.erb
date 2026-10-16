@@ -36,7 +36,15 @@
     </main>
 
     <footer class="mx-auto max-w-5xl px-4 pb-8 text-xs text-slate-500">
-      <p><%= t("app.tagline") %>. <%= t("app.sample_data_notice") %></p>
+      <p><%= t("app.tagline") %>.</p>
+      <p class="mt-1">
+        <%= t("app.sources") %>
+        <%= link_to "AUF", "https://www.auf.org.uy/", class: "underline" %>,
+        <%= link_to "Tenfield Estadísticas", "https://estadisticas.tenfield.com.uy/", class: "underline" %>
+        <%= t("app.and") %>
+        <%= link_to "Wikipedia", "https://es.wikipedia.org/", class: "underline" %>
+        (<%= link_to "CC BY-SA", "https://creativecommons.org/licenses/by-sa/4.0/deed.es", class: "underline" %>).
+      </p>
     </footer>
   </body>
 </html>

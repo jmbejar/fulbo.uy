@@ -9,13 +9,13 @@
   <div class="flex flex-1 items-center justify-end text-right">
     <%= link_to match.home_team.display_name, team_path(match.home_team), class: "hover:underline", data: { turbo_frame: "_top" } %>
   </div>
-  <div class="w-20 shrink-0 text-center font-bold tabular-nums <%= "text-slate-400 font-normal" unless match.score? %>">
+  <div class="w-20 shrink-0 text-center font-bold tabular-nums <%= "text-slate-400 font-normal" unless match.score? || match.walkover? %>" title="<%= match_score_title(match) %>">
     <%= match_score(match) %>
   </div>
   <div class="flex flex-1 items-center">
     <%= link_to match.away_team.display_name, team_path(match.away_team), class: "hover:underline", data: { turbo_frame: "_top" } %>
   </div>
-  <% unless match.finished? || match.scheduled? %>
+  <% unless match.finished? || match.scheduled? || match.walkover? %>
     <span class="rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-800"><%= t("matches.status.#{match.status}") %></span>
   <% end %>
 </li>

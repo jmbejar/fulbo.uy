@@ -10,6 +10,25 @@
 #     schedule: at 5am every day
 
 production:
+  # Match data (see app/models/sync.rb). AUF builds the fixture; Tenfield
+  # brings scores first; Wikipedia adds walkovers and sanctions.
+  sync_auf:
+    class: SyncSourceJob
+    args: [ "auf" ]
+    schedule: every hour at minute 5
+  sync_tenfield:
+    class: SyncSourceJob
+    args: [ "tenfield" ]
+    schedule: every 15 minutes
+  sync_tenfield_full:
+    class: SyncSourceJob
+    args: [ "tenfield", "full" ]
+    schedule: at 6am every day
+  sync_wikipedia:
+    class: SyncSourceJob
+    args: [ "wikipedia" ]
+    schedule: every hour at minute 35
+
   clear_solid_queue_finished_jobs:
     command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
     schedule: every hour at minute 12

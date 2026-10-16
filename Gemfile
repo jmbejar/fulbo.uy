@@ -61,5 +61,6 @@ end
 gem "rails-i18n", "~> 8.1"
 
 gem "csv", "~> 3.3"
+gem "nokogiri"
 
 gem "json", "~> 2.21"

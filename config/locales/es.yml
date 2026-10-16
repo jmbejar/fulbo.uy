@@ -2,7 +2,8 @@ es:
   app:
     name: "FulboUY"
     tagline: "Resultados y tablas del fútbol uruguayo"
-    sample_data_notice: "Los partidos que se muestran son datos de ejemplo hasta que se conecten las fuentes oficiales."
+    sources: "Datos de"
+    and: "y"
   time:
     formats:
       match: "%a %d/%m · %H:%M"
@@ -59,12 +60,15 @@ es:
     round: "Fecha %{number}"
     penalties_short: "pen."
     to_be_defined: "A confirmar"
+    walkover_short: "w/o"
+    walkover_winner: "Ganó %{team} por walkover"
     status:
       scheduled: "Programado"
       live: "En juego"
       finished: "Final"
       suspended: "Suspendido"
       postponed: "Postergado"
+      walkover: "Walkover"
   teams:
     show:
       matches: "Partidos"

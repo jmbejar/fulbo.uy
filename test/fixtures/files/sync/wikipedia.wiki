@@ -1,0 +1,42 @@
+== Torneo Inicial ==
+=== Serie A ===
+==== Posiciones ====
+{{#invoke:Football table|main|estilo=WDL
+|actualizado=16 de julio de 2026
+|orden_equipo= ALF, GAM, BET, COO
+
+|ganados_ALF=2 |empates_ALF=0 |perdidos_ALF=0 |gf_ALF=5 |gc_ALF=1 <!-- Alfa -->
+|ganados_BET=0 |empates_BET=0 |perdidos_BET=1 |gf_BET=0 |gc_BET=3 <!-- Beta -->
+|ganados_COO=0 |empates_COO=0 |perdidos_COO=2 |gf_COO=0 |gc_COO=0 <!-- Cooper -->
+|ganados_GAM=1 |empates_GAM=0 |perdidos_GAM=0 |gf_GAM=0 |gc_GAM=0 <!-- Gama -->
+
+|ajustar_puntos_ALF=-3
+|hth_ALF=La AUF le quitó los 3 puntos obtenidos ante [[Club Beta|Beta]].<ref>Fuente.</ref>
+|ajustar_puntos_BET=+3
+
+|nombre_ALF={{AUF|Alfa}}
+|nombre_BET={{AUF|Beta}} <ref name="a">Nota.</ref>
+|nombre_COO=[[Cooper FC|Cooper]]
+|nombre_GAM={{AUF|Gama}}
+}}
+
+=== Serie B ===
+{{#invoke:Football table|main|estilo=WDL
+|orden_equipo= DEL, EPS
+|ganados_DEL=0 |empates_DEL=0 |perdidos_DEL=0 |gf_DEL=0 |gc_DEL=0
+|ganados_EPS=0 |empates_EPS=0 |perdidos_EPS=0 |gf_EPS=0 |gc_EPS=0
+|nombre_DEL={{AUF|Delta}}
+|nombre_EPS={{AUF|Épsilon}}
+}}
+
+=== Tabla general ===
+{{#invoke:Football table|main|estilo=WDL
+|orden_equipo= ALF, GAM, BET, COO, DEL, EPS
+|ajustar_puntos_DEL=2
+|nombre_ALF={{AUF|Alfa}}
+|nombre_BET={{AUF|Beta}}
+|nombre_COO={{AUF|Cooper}}
+|nombre_GAM={{AUF|Gama}}
+|nombre_DEL={{AUF|Delta}}
+|nombre_EPS={{AUF|Épsilon}}
+}}
