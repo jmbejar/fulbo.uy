@@ -79,6 +79,7 @@ Always compute the Anual and relegation tables ourselves.
 - Turbo Frame tab navigation updates the URL but not the page `<title>`.
 - Sync gaps:
   - The AUF importer never deletes matches that disappear from the fixture, such as after a withdrawal. They would stay listed as scheduled.
+  - The cup importer doesn't either: a match removed from the Wikipedia page stays.
   - An AUF date without a time is stored at 00:00.
   - The Intermedio has no Tenfield season slug.
   - Segunda's regular stage gets no Wikipedia sanctions, because its table is hand-written.

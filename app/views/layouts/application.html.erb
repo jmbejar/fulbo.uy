@@ -24,12 +24,12 @@
 
   <body class="flex min-h-screen flex-col bg-bg font-sans text-ink antialiased">
     <header class="bg-head text-white">
-      <div class="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-6 gap-y-2 px-4 pt-2.5 pb-3 md:px-8 md:py-3">
+      <div class="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-6 gap-y-2 px-4 pt-2.5 pb-3 md:px-8 md:py-3 lg:flex-nowrap">
         <%= link_to root_path, class: "flex shrink-0 items-center gap-1 font-logo text-[1.75rem] leading-none font-extrabold italic text-white no-underline", aria: { label: t(".home") } do %>
           Fulbo<span class="rounded-[0.12em] bg-cel px-[0.3em] pt-[0.12em] pb-[0.05em] text-[0.63em] text-navy">UY</span>
         <% end %>
 
-        <nav aria-label="<%= t(".competitions") %>" class="order-3 flex basis-full flex-wrap gap-1.5 md:order-none md:basis-auto">
+        <nav aria-label="<%= t(".competitions") %>" class="order-3 flex basis-full flex-wrap gap-1.5 md:order-none md:basis-auto lg:shrink-0 lg:flex-nowrap">
           <% Competition.by_tier.each do |competition| %>
             <% current = competition == @competition %>
             <%= link_to competition.name, competition_nav_path(competition),
