@@ -91,7 +91,8 @@ es:
       title: "Buscar equipo"
       no_results: "No encontramos ese equipo."
     show:
-      matches: "Partidos"
+      upcoming: "Próximos partidos"
+      results: "Resultados"
       no_matches: "No hay partidos para este equipo."
   activerecord:
     errors:

@@ -8,7 +8,10 @@ class TeamsController < ApplicationController
 
   def show
     @team = Team.find_by!(slug: params[:slug])
-    @matches = @team.matches.includes(:home_team, :away_team, stage: { season: :competition }).order(Match.arel_table[:kicks_off_at].asc.nulls_last, :round)
+    matches = @team.matches.includes(:home_team, :away_team, stage: { season: :competition }).order(Match.arel_table[:kicks_off_at].asc.nulls_last, :round)
+    # Results run newest first, so the latest one sits next to the upcoming matches.
+    upcoming, results = matches.partition { |match| !match.decided? }
+    @sections = { upcoming: upcoming, results: results.reverse }.reject { |_, list| list.empty? }
   end
 
   private

@@ -9,19 +9,21 @@
   </div>
 </div>
 
-<section aria-labelledby="matches-heading" class="mt-6 max-w-[46rem]">
-  <h2 id="matches-heading" class="mb-1 text-[1.35em] font-bold"><%= t(".matches") %></h2>
-  <% if @matches.any? %>
-    <% @matches.group_by(&:stage).each do |stage, matches| %>
+<% @sections.each do |section, matches| %>
+  <section aria-labelledby="<%= section %>-heading" class="mt-6 max-w-[46rem]">
+    <h2 id="<%= section %>-heading" class="mb-1 text-[1.35em] font-bold"><%= t(".#{section}") %></h2>
+    <% matches.chunk_while { |a, b| a.stage == b.stage }.each do |stage_matches| %>
+      <% stage = stage_matches.first.stage %>
       <h3 class="mt-5 mb-1 border-b-2 border-line pb-1.5 font-bold">
         <%= link_to "#{stage.season.competition.name} · #{stage.name}", competition_stage_path(stage.season.competition, stage), class: "text-ink" %>
       </h3>
-      <% matches.each do |match| %>
+      <% stage_matches.each do |match| %>
         <p class="mt-2 text-[0.9em] text-ink2"><%= [ (round_label(match.round) if match.round), match_day(match.kicks_off_at&.to_date) ].compact.join(" · ") %></p>
         <%= render "matches/match", match: match %>
       <% end %>
     <% end %>
-  <% else %>
-    <p class="text-ink2"><%= t(".no_matches") %></p>
-  <% end %>
-</section>
+  </section>
+<% end %>
+<% if @sections.empty? %>
+  <p class="mt-6 text-ink2"><%= t(".no_matches") %></p>
+<% end %>

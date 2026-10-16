@@ -69,12 +69,18 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "p", "No encontramos ese equipo."
   end
 
-  test "team page lists its matches" do
+  test "team page lists upcoming matches before results, newest result first" do
+    play(@clausura, @a, 1, 0, @b, round: 2)
     get team_path(@a)
 
     assert_response :success
     assert_select "h1", "Peñarol"
-    assert_select "h2", "Partidos"
+    assert_select "h2", count: 2 do |headings|
+      assert_equal [ "Próximos partidos", "Resultados" ], headings.map(&:text)
+    end
+    assert_select "section[aria-labelledby=results-heading] h3" do |stages|
+      assert_equal [ "Primera · Clausura", "Primera · Apertura" ], stages.map { _1.text.strip }
+    end
   end
 
   test "unknown competition is not found" do
