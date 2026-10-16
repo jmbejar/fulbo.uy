@@ -12,10 +12,10 @@
   <div class="flex flex-col gap-1.5 md:hidden">
     <% sides.each do |side, team| %>
       <%= link_to team_path(team), class: "flex items-center gap-3 text-ink no-underline hover:underline" do %>
-        <%= team_crest(team) %>
-        <span class="min-w-0 flex-1 text-[1.15em] leading-tight break-words <%= "font-bold" if match_winner?(match, side) %>"><%= team.name %></span>
+        <%= team_crest(team, size: "size-[2.6em]") %>
+        <span class="min-w-0 flex-1 text-[1.55em] leading-tight break-words <%= "font-bold" if match_winner?(match, side) %>"><%= team.name %></span>
         <% if match.score? %>
-          <span class="text-[1.4em] font-bold tabular-nums <%= score_color %>"><%= side == :home ? match.home_goals : match.away_goals %></span>
+          <span class="text-[2.5em] leading-none font-bold tabular-nums <%= score_color %>"><%= side == :home ? match.home_goals : match.away_goals %></span>
         <% end %>
       <% end %>
     <% end %>
@@ -23,15 +23,15 @@
 
   <p class="hidden grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 md:grid">
     <%= link_to team_path(match.home_team), class: "flex items-center justify-end gap-2.5 text-right text-ink no-underline hover:underline" do %>
-      <span class="min-w-0 text-[1.15em] leading-tight break-words <%= "font-bold" if match_winner?(match, :home) %>"><%= match.home_team.name %></span>
-      <%= team_crest(match.home_team) %>
+      <span class="min-w-0 text-[2em] leading-tight break-words <%= "font-bold" if match_winner?(match, :home) %>"><%= match.home_team.name %></span>
+      <%= team_crest(match.home_team, size: "size-[3em]") %>
     <% end %>
-    <span class="min-w-[3.4em] text-center text-[1.45em] font-bold whitespace-nowrap tabular-nums <%= score_color %>">
+    <span class="min-w-[2.6em] text-center text-[3em] leading-none font-bold whitespace-nowrap tabular-nums <%= score_color %>">
       <%= match_score(match) %>
     </span>
     <%= link_to team_path(match.away_team), class: "flex items-center gap-2.5 text-ink no-underline hover:underline" do %>
-      <%= team_crest(match.away_team) %>
-      <span class="min-w-0 text-[1.15em] leading-tight break-words <%= "font-bold" if match_winner?(match, :away) %>"><%= match.away_team.name %></span>
+      <%= team_crest(match.away_team, size: "size-[3em]") %>
+      <span class="min-w-0 text-[2em] leading-tight break-words <%= "font-bold" if match_winner?(match, :away) %>"><%= match.away_team.name %></span>
     <% end %>
   </p>
 </div>

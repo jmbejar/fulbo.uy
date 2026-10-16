@@ -6,11 +6,11 @@
 <table class="w-full table-fixed border-collapse tabular-nums">
   <caption class="sr-only"><%= caption %></caption>
   <colgroup>
-    <col class="w-[2.4em] md:w-[3em]">
+    <col class="w-[2.4em] md:w-[4.2em]">
     <col>
     <col class="w-[3.2em] md:w-[5.2em]">
     <col class="w-[3.2em] md:w-[6em]">
-    <col class="w-[3.8em] md:w-[5em]">
+    <col class="w-[3.8em] <%= average ? "md:w-[7.2em]" : "md:w-[5em]" %>">
   </colgroup>
   <thead>
     <tr class="border-b-2 border-ink text-[0.85em] text-ink2">
@@ -39,7 +39,7 @@
       <% end %>
       <% section.positions.each do |position| %>
         <% row = rows[position - 1] %>
-        <tr class="h-[2.75em] border-b border-line2" data-zone="<%= section.zone %>">
+        <tr class="h-[2.75em] border-b border-line2 md:text-[1.6em]" data-zone="<%= section.zone %>">
           <td class="px-1.5 font-bold">
             <span class="flex items-center gap-1.5">
               <span class="h-[1.4em] w-[0.3em] shrink-0 rounded-[0.1em] <%= section.zone ? zone_color(section.zone) : "bg-transparent" %>" aria-hidden="true"></span><%= position %>
@@ -47,7 +47,7 @@
           </td>
           <td class="px-1.5 py-1">
             <%= link_to team_path(row.team), class: "flex items-center gap-2.5 font-bold text-ink no-underline hover:underline" do %>
-              <%= team_crest(row.team, size: "size-[1.3em]") %><span class="min-w-0 break-words hyphens-auto"><%= row.team.name %></span>
+              <%= team_crest(row.team, size: "size-[1.3em] md:size-[1.7em]") %><span class="min-w-0 break-words hyphens-auto"><%= row.team.name %></span>
             <% end %>
           </td>
           <% if average %>
