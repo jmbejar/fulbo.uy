@@ -12,8 +12,9 @@ module CompetitionScoped
     slug = params[:competition_slug] || params[:slug]
     @competition = slug ? Competition.find_by!(slug: slug) : Competition.by_tier.first!
     @season = @competition.current_season
-    # Cached tables show crests, which the AUF sync learns after the fact.
-    @crests_version = Team.maximum(:updated_at)
+    # Cached tables show crests, which the AUF sync learns after the fact and
+    # deploys can bundle.
+    @crests_version = [ Team.maximum(:updated_at), Team::BUNDLED_CRESTS.size ]
   end
 
   # The round shown in the fixtures: the requested one, or the next round
