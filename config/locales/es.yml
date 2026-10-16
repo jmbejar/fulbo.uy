@@ -59,6 +59,7 @@ es:
   zones:
     champion: "Campeón de la fase"
     libertadores: "Copa Libertadores"
+    sudamericana: "Copa Sudamericana"
     final: "Juega la final"
     playoff: "Pasa a la siguiente fase"
     next_round: "Pasan a la segunda fase"

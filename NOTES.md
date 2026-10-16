@@ -11,6 +11,8 @@ Snapshot of the 2026 season as researched on 2026-10-15 (sources mostly updated 
   - The Intermedio final is not modelled yet (no knockout stage in the seeds).
 - **Clausura**: single round robin, 7 Aug to about 15 Nov. Peñarol has a −1 point sanction.
 - **Tabla Anual**: Apertura + Intermedio group stage + Clausura. The leader gets Copa Libertadores (group stage).
+  - International berths (es.wikipedia, "Sistema de disputa"): Libertadores Uruguay 1 = champion, Uruguay 2 = best Anual team other than the champion (or the final's runner-up), Uruguay 3 = next best in the Anual, Uruguay 4 = Copa AUF Uruguay winner. Sudamericana: Apertura/Clausura winner, Intermedio winner, then the next two in the Anual, skipping teams already qualified.
+  - The Anual table shows a simplification: 1st–3rd Libertadores, 4th–7th Sudamericana. The Copa AUF berth, the champion's and the stage winners' priority are not modelled.
 - **Championship**: two-leg semifinal between the Apertura and Clausura winners, then a two-leg final against the Anual leader.
   - ⚠ Not modelled. It is unclear whether winning both Apertura and Clausura cancels the playoff (Wikipedia) or only winning Apertura, Clausura and the Anual does (ESPN).
 - **Descenso**: points per match over 2025 + 2026; the bottom 3 go down.
