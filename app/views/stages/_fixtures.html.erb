@@ -19,7 +19,7 @@
   </div>
 
   <% matches = stage.matches.where(round: round).includes(:home_team, :away_team).chronological %>
-  <% matches.group_by { |match| match.kicks_off_at&.to_date }.sort_by { |date, _| date || Date.new(9999) }.each do |date, day_matches| %>
+  <% fixture_days(matches).each do |date, day_matches| %>
     <h3 class="mt-5 mb-1 border-b-2 border-line pb-1.5 font-bold <%= "text-accent" if date == Date.current %>"><%= match_day(date) %></h3>
     <%= render partial: "matches/match", collection: day_matches, as: :match %>
   <% end %>

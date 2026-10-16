@@ -53,6 +53,32 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "p span", "Terminado"
   end
 
+  test "fixtures open on the next dated round, skipping matches left scheduled in the past" do
+    @clausura.matches.first.update!(kicks_off_at: 3.weeks.ago)
+    play(@clausura, @a, 1, 0, @b, round: 2).update!(kicks_off_at: 1.week.ago)
+    @clausura.matches.create!(home_team: @b, away_team: @a, round: 3, status: :scheduled, kicks_off_at: 2.days.from_now)
+    get competition_path("primera")
+    assert_select "strong", "Fecha 3"
+
+    @clausura.matches.find_by(round: 3).update!(kicks_off_at: nil)
+    get competition_path("primera")
+    assert_select "strong", "Fecha 2"
+  end
+
+  test "fixtures list upcoming days first, then results newest first" do
+    { 20.days.ago => :finished, 3.days.ago => :finished, 4.days.from_now => :scheduled }.each do |kickoff, status|
+      @clausura.matches.create!(home_team: @a, away_team: @b, round: 1, status: status, kicks_off_at: kickoff,
+                                home_goals: (0 if status == :finished), away_goals: (0 if status == :finished))
+    end
+    @clausura.matches.first.destroy
+    get competition_path("primera")
+
+    assert_select "h3" do |days|
+      expected = [ 4.days.from_now, 3.days.ago, 20.days.ago ].map { I18n.l(_1.to_date, format: :day).upcase_first }
+      assert_equal expected, days.map(&:text)
+    end
+  end
+
   test "live matches are announced with words" do
     @clausura.matches.first.update!(status: :live, home_goals: 0, away_goals: 0)
     get competition_path("primera")

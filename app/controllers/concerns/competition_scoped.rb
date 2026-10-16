@@ -17,13 +17,18 @@ module CompetitionScoped
     @crests_version = [ Team.maximum(:updated_at), Team::BUNDLED_CRESTS.size ]
   end
 
-  # The round shown in the fixtures: the requested one, or the next round
-  # with pending matches, or the last one.
+  # The round shown in the fixtures: the requested one, or the round of the
+  # next match on the calendar, or else the latest results, since a round
+  # without dates yet has nothing to show but team names. Matches still
+  # scheduled on a past day (usually postponed without notice) don't count,
+  # or one of them would pin the page to an old round.
   def selected_round(stage)
     rounds = stage.rounds
     requested = params[:round].to_i
     return requested if rounds.include?(requested)
 
-    stage.matches.scheduled.minimum(:round) || rounds.last
+    stage.matches.where(status: %i[scheduled live], kicks_off_at: Date.current.beginning_of_day..).order(:kicks_off_at).pick(:round) ||
+      stage.matches.decided.order(kicks_off_at: :desc).pick(:round) ||
+      rounds.first
   end
 end

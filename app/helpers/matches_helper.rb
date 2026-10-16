@@ -57,6 +57,15 @@ module MatchesHelper
     relative ? "#{t("matches.#{relative}")}, #{day}" : day.upcase_first
   end
 
+  # A round's matches grouped by day: today and what's coming first, then
+  # past days newest first, as on the team page. A cup round can span a
+  # month, and its latest results matter more than the first ones.
+  def fixture_days(matches)
+    days = matches.group_by { |match| match.kicks_off_at&.to_date }
+    past, upcoming = days.partition { |date, _| date&.past? }
+    upcoming.sort_by { |date, _| date || Date.new(9999) } + past.sort_by { |date, _| date }.reverse
+  end
+
   # "Fecha 3", or the round's name in a knockout stage ("Octavos de final").
   def round_label(round, stage: nil)
     stage&.round_name(round) || t("matches.round", number: round)
