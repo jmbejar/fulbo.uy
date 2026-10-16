@@ -9,16 +9,6 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%# Applies the reader's saved text size and theme before the first paint. %>
-    <script>
-      try {
-        const root = document.documentElement
-        root.dataset.size = localStorage.getItem("size") || "medium"
-        root.dataset.theme = localStorage.getItem("theme") ||
-          (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
-      } catch (e) {}
-    </script>
-
     <%= yield :head %>
 
     <link rel="icon" href="/icon.png" type="image/png">
@@ -53,25 +43,6 @@
         <%= render "teams/search" %>
       </div>
     </header>
-
-    <div class="border-b border-line2 bg-soft" data-controller="preferences">
-      <div class="mx-auto flex max-w-[1240px] flex-wrap items-center justify-end gap-x-5 gap-y-2 px-4 py-2 md:px-8">
-        <div role="group" aria-label="<%= t(".text_size") %>" class="flex items-center gap-2">
-          <span class="text-ink2"><%= t(".text_size") %></span>
-          <% { "small" => ["min-w-9 h-9 text-[0.8rem]", t(".size_small")],
-               "medium" => ["min-w-10 h-10 text-base", t(".size_medium")],
-               "large" => ["min-w-11 h-11 text-[1.2rem]", t(".size_large")] }.each do |size, (classes, label)| %>
-            <button type="button" aria-label="<%= label %>" aria-pressed="false"
-                    data-preferences-target="size" data-size="<%= size %>" data-action="preferences#setSize"
-                    class="<%= classes %> flex cursor-pointer items-center justify-center rounded-md border-2 border-line bg-bg font-bold text-ink aria-pressed:border-chip aria-pressed:bg-chip aria-pressed:text-on-chip">A</button>
-          <% end %>
-        </div>
-        <button type="button" aria-pressed="false" data-preferences-target="dark" data-action="preferences#toggleDark"
-                class="h-11 cursor-pointer rounded-md border-2 border-line bg-bg px-4 font-bold text-ink">
-          <%= t(".dark_mode") %>
-        </button>
-      </div>
-    </div>
 
     <main class="mx-auto w-full max-w-[1240px] flex-1 px-4 pt-5 pb-6 md:px-8 md:pt-8 md:pb-10">
       <%= yield %>

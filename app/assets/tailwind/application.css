@@ -26,36 +26,35 @@
 }
 
 @layer base {
-  [data-theme="dark"] {
-    --color-bg: #0b1220;
-    --color-soft: #131d2f;
-    --color-line: #4a5b76;
-    --color-line2: #26334a;
-    --color-ink: #f3f6fa;
-    --color-ink2: #c8d1dd;
-    --color-head: #050a14;
-    --color-cel: #4f86be;
-    --color-accent: #9ccbf5;
-    --color-live: #ff8a80;
-    --color-on-live: #2a0604;
-    --color-live-soft: #2a161b;
-    --color-badge: #26334a;
-    --color-chip: #f3f6fa;
-    --color-on-chip: #0b1320;
-    --color-zone1: #9ccbf5;
-    --color-zone2: #4f86be;
-    --color-zone3: #ff8a80;
+  /* Dark mode follows the system setting. */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-bg: #0b1220;
+      --color-soft: #131d2f;
+      --color-line: #4a5b76;
+      --color-line2: #26334a;
+      --color-ink: #f3f6fa;
+      --color-ink2: #c8d1dd;
+      --color-head: #050a14;
+      --color-cel: #4f86be;
+      --color-accent: #9ccbf5;
+      --color-live: #ff8a80;
+      --color-on-live: #2a0604;
+      --color-live-soft: #2a161b;
+      --color-badge: #26334a;
+      --color-chip: #f3f6fa;
+      --color-on-chip: #0b1320;
+      --color-zone1: #9ccbf5;
+      --color-zone2: #4f86be;
+      --color-zone3: #ff8a80;
+    }
   }
 
-  /* Three text sizes chosen by the reader; everything else is in rem/em. */
+  /* Everything else is in rem/em. */
   html { font-size: 18px; }
-  html[data-size="small"] { font-size: 16px; }
-  html[data-size="large"] { font-size: 21px; }
 
   @media (min-width: 48rem) {
     html { font-size: 19px; }
-    html[data-size="small"] { font-size: 17px; }
-    html[data-size="large"] { font-size: 23px; }
   }
 
   body { line-height: 1.45; }

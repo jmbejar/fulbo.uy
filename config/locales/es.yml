@@ -16,11 +16,6 @@ es:
     application:
       home: "FulboUY, ir a la página principal"
       competitions: "Torneos"
-      text_size: "Tamaño de letra"
-      size_small: "Letra normal"
-      size_medium: "Letra grande"
-      size_large: "Letra muy grande"
-      dark_mode: "Modo oscuro"
   competitions:
     live:
       one: "En juego: 1 partido"
