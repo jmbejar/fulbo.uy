@@ -58,6 +58,21 @@ class Sync::TenfieldTest < ActiveSupport::TestCase
     assert_not @http.requests.any? { _1.include?("/event/penarol-nacional/") }
   end
 
+  test "full runs skip older final scores but re-check recent ones" do
+    current = match(@penarol, @nacional, Time.zone.local(2026, 8, 8, 18, 30))
+    Sync::Tenfield::Importer.new(http: @http, now: @now).call
+    assert_predicate current.reload, :finished?
+
+    @http.requests.clear
+    Sync::Tenfield::Importer.new(full: true, http: @http, now: @now, pause: 0).call
+    assert @http.requests.any? { _1.include?("/event/penarol-nacional/") }
+
+    @http.requests.clear
+    Sync::Tenfield::Importer.new(full: true, http: @http, now: @now + 1.month, pause: 0).call
+    assert @http.requests.any? { _1.include?("/feed/") }
+    assert_not @http.requests.any? { _1.include?("/event/penarol-nacional/") }
+  end
+
   private
 
   def match(home, away, kickoff) = @stage.matches.create!(home_team: home, away_team: away, kicks_off_at: kickoff)

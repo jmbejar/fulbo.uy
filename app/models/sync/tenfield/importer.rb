@@ -9,11 +9,13 @@ module Sync
     # ("clausura-2026"; Segunda's "lapro-anual-2026" spans the whole season).
     #
     # The default run only reads the newest feed page of scopes with recent
-    # matches; `full: true` walks every page back to the scope's first match.
+    # matches; `full: true` walks every page back to the scope's first match,
+    # to catch scores the default run missed.
     class Importer
       SOURCE = "tenfield"
       BASE_URL = "https://estadisticas.tenfield.com.uy/season/"
       RECENT = 3.days
+      CORRECTION_WINDOW = 7.days
       MAX_PAGES = 40
 
       def initialize(full: false, http: Http.new, now: Time.current, pause: full ? 0.5 : 0)
@@ -62,10 +64,13 @@ module Sync
         matches.any? { |match| match.kicks_off_at&.between?(@now - RECENT, @now) }
       end
 
-      # Outside full runs, a final score we already have from Tenfield is
-      # not fetched again.
+      # A final score we already have from Tenfield is not fetched again.
+      # Full runs still re-check matches from the last CORRECTION_WINDOW, in
+      # case Tenfield corrected a score.
       def settled?(match)
-        !@full && match.decided? && match.reports.any? { |report| report.source == SOURCE && report.score? }
+        return false if @full && match.kicks_off_at&.after?(@now - CORRECTION_WINDOW)
+
+        match.decided? && match.reports.any? { |report| report.source == SOURCE && report.score? }
       end
 
       def feed_items(slug, matches)

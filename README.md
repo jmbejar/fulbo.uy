@@ -27,7 +27,7 @@ See `NOTES.md` for the research on each tournament's format, the open questions 
 | Source | Role | Default run | `full` run |
 |---|---|---|---|
 | auf.org.uy | Builds the fixture: matches, rounds, dates and scores | hourly | — |
-| Tenfield Estadísticas | Scores, published first; postponements | every 15 min, newest feed page only | daily, every page |
+| Tenfield Estadísticas | Scores, published first; postponements | every 15 min, newest feed page only | daily, every page; only re-fetches scores from the last 7 days |
 | es.wikipedia | Walkovers, missing results and points sanctions | hourly, only pages whose revision changed | any page |
 | es.wikipedia (Copa AUF Uruguay) | The whole cup: fixture, results and teams | hourly, only if the revision changed | any revision |
 

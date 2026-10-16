@@ -83,7 +83,7 @@ Always compute the Anual and relegation tables ourselves.
   - An AUF date without a time is stored at 00:00.
   - The Intermedio has no Tenfield season slug.
   - Segunda's regular stage gets no Wikipedia sanctions, because its table is hand-written.
-  - The daily full Tenfield run takes about 17 minutes.
+  - The daily full Tenfield run walks every feed page but skips scores it already has, except from the last 7 days. A correction Tenfield makes to an older score is missed.
   - League knockout rounds (Intermedio final, playoffs) are not imported, because they aren't modelled. Only the cup has a knockout stage.
 - `json` is pinned to `~> 2.21` because json 3.x breaks ActiveSupport 8.0 (`unknown keyword: quirks_mode`).
 
