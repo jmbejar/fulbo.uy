@@ -52,7 +52,7 @@ Snapshot of the 2026 season as researched on 2026-10-15 (sources mostly updated 
   - Group matches carry no round number. The round is worked out from the pairings: in a group of 4 each round is one of the three ways to pair the teams. Rounds are ordered by first kickoff, so they can differ from AUF's numbering when a round was postponed (Grupo 3).
   - A link label can drop the club's disambiguation ("[[Club Atlético Atenas (San Carlos)|Atenas]]"), so teams are keyed on the article title.
   - On 2026-10-16 Wikipedia had Boston River 0–0 River Plate with penalties 4–3; AUF had 5–2. Its round of 16 list also named River Plate, who lost.
-- Interior (OFI) clubs have no crest on Wikipedia, Wikidata or AUF's mapped pages. The 10 OFI clubs in the cup have crests in `app/assets/images/crests/`, cropped by hand from the "Copa Nacional de Clubes 2026 · Fase de grupos" graphic by Escudos del Interior UY and Moth Design (Instagram). A new interior club needs its file added there, named after its slug.
+- Interior (OFI) clubs have no crest on Wikipedia, Wikidata or AUF's mapped pages. The 10 OFI clubs in the cup have crests in `app/assets/images/crests/`, cropped by hand from the "Copa Nacional de Clubes 2026 · Fase de grupos" graphic by Escudos del Interior UY and Moth Design (Instagram). Real Montevideo and Rincón (Divisional D, whose results we don't show) come from AUF's page, https://www.auf.org.uy/divisional-d-auf/, with the white background removed. A new club needs its file added there, named after its slug.
 
 ## Data sources
 In use: AUF, Tenfield Estadísticas and Wikipedia (see README, "Match data"). The rows below are the alternatives that were considered.
