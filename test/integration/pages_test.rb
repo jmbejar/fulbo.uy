@@ -21,6 +21,16 @@ class PagesTest < ActionDispatch::IntegrationTest
     assert_select "strong", "Fecha 1"
   end
 
+  test "navbar links land on each competition's main table" do
+    Competition.create!(name: "Segunda", slug: "segunda", tier: 2)
+    Competition.create!(name: "Amateur", slug: "amateur", tier: 3)
+    get root_path
+
+    assert_select "header nav a[href=?]", competition_stage_path("primera", "clausura", view: "standings"), "Primera"
+    assert_select "header nav a[href=?]", annual_competition_path("segunda"), "Segunda"
+    assert_select "header nav a[href=?]", competition_stage_path("amateur", "final", view: "standings"), "Amateur"
+  end
+
   test "competition page switches between matches and standings" do
     get competition_path("primera")
     assert_select "h2", "Partidos"
