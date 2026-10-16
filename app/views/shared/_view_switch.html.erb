@@ -1,5 +1,5 @@
 <%# locals: (matches_path:, standings_path:, active:, standings_label: t("competitions.view_switch.standings")) %>
-<nav aria-label="<%= t("competitions.view_switch.label") %>" class="mt-4 flex max-w-[26rem] gap-1 rounded-[0.6rem] border border-line2 bg-soft p-1">
+<nav aria-label="<%= t("competitions.view_switch.label") %>" class="flex max-w-[26rem] gap-1 rounded-[0.6rem] border border-line2 bg-soft p-1 md:mt-4">
   <% { matches: [ matches_path, t("competitions.view_switch.matches") ], standings: [ standings_path, standings_label ] }.each do |view, (path, label)| %>
     <%= link_to label, path,
           aria: { current: ("page" if view == active) },

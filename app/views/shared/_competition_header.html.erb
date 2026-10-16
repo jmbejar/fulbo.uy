@@ -1,10 +1,11 @@
 <%# locals: (competition:, season:, stage:) %>
 <% live = season.matches.live.count %>
-<div class="flex flex-col gap-1.5 border-b-2 border-ink pb-5">
-  <h1 class="text-[1.7rem] leading-tight font-bold md:text-[2.3rem]"><%= competition.name %></h1>
-  <p class="text-[1.05rem] text-ink2"><%= stage.name %> <%= season.year %></p>
+<%# On phones the navbar already names the competition, so only the live note shows. %>
+<div class="flex flex-col gap-1.5 md:border-b-2 md:border-ink md:pb-5">
+  <h1 class="sr-only text-[2.3rem] leading-tight font-bold md:not-sr-only"><%= competition.name %></h1>
+  <p class="hidden text-[1.05rem] text-ink2 md:block"><%= stage.name %> <%= season.year %></p>
   <% if live.positive? %>
-    <p class="mt-1 flex items-center gap-2 font-bold text-live">
+    <p class="mb-3 flex items-center gap-2 font-bold text-live md:mt-1 md:mb-0">
       <span class="size-[0.65em] rounded-full bg-live" aria-hidden="true"></span><%= t("competitions.live", count: live) %>
     </p>
   <% end %>
