@@ -37,6 +37,22 @@ Snapshot of the 2026 season as researched on 2026-10-15 (sources mostly updated 
 - ⚠ The name "Deportivo LSM" comes from press reports and was not verified.
 - Source: https://www.montevideo.com.uy/Deportes/Desde-Rampla-hasta-el-equipo-de-Suarez-y-Messi-quedo-fijada-la-primera-fecha-de-la-C-uc960455
 
+## Copa AUF Uruguay 2026 (5th edition), 40 teams
+- Researched on 2026-10-16 from https://es.wikipedia.org/wiki/Copa_AUF_Uruguay_2026, which is the only source the app uses for the cup.
+- The champion gets Copa Libertadores 2027 (Uruguay 4).
+- Entrants: the 16 Primera teams, 8 from Segunda, 4 from Primera C, 2 from Divisional D and 10 interior (OFI) clubs.
+- **Professional route**: 6 groups of 4, single round robin. The top 2 and the 4 best thirds go through.
+  - ⚠ The tiebreakers and how the best thirds are compared are not modelled. The thirds table is not shown.
+- **Amateur route**: a one-match knockout among 8 Primera C teams (4 go through).
+- **Second stage**: 16 professional and 16 amateur teams, one match each, penalties if tied.
+- **Final phase**: round of 16, quarterfinals, semifinals and final, one match each. Semifinals and final are played on neutral ground.
+- Modelled as two stages: "Fase de grupos" and "Eliminatorias", a knockout stage whose rounds are named in `Stage#round_names`.
+- Wikipedia quirks:
+  - Every match is a `{{Partidos}}` template. Its phase comes from the headings above it, and the importer maps them in `KNOCKOUT_ROUNDS`. A renamed heading leaves its matches unmatched (logged).
+  - Group matches carry no round number. The round is worked out from the pairings: in a group of 4 each round is one of the three ways to pair the teams. Rounds are ordered by first kickoff, so they can differ from AUF's numbering when a round was postponed (Grupo 3).
+  - A link label can drop the club's disambiguation ("[[Club Atlético Atenas (San Carlos)|Atenas]]"), so teams are keyed on the article title.
+  - On 2026-10-16 Wikipedia had Boston River 0–0 River Plate with penalties 4–3; AUF had 5–2. Its round of 16 list also named River Plate, who lost.
+
 ## Data sources
 In use: AUF, Tenfield Estadísticas and Wikipedia (see README, "Match data"). The rows below are the alternatives that were considered.
 
@@ -67,7 +83,7 @@ Always compute the Anual and relegation tables ourselves.
   - The Intermedio has no Tenfield season slug.
   - Segunda's regular stage gets no Wikipedia sanctions, because its table is hand-written.
   - The daily full Tenfield run takes about 17 minutes.
-  - Knockout rounds (Intermedio final, playoffs) are not imported, because they aren't modelled.
+  - League knockout rounds (Intermedio final, playoffs) are not imported, because they aren't modelled. Only the cup has a knockout stage.
 - `json` is pinned to `~> 2.21` because json 3.x breaks ActiveSupport 8.0 (`unknown keyword: quirks_mode`).
 
 ## AUF scraping (spike 2026-10-15)
@@ -85,6 +101,7 @@ One server-rendered page per division holds every fixture of the season. Results
   - Segunda: Competencia A/B c1453/c1454, final c1482, regular c1500.
   - Amateur: Inicial A/B/C c1479/c1480/c1478, semis c1519, final c1520, Torneo Final c1527.
   - The Primera page also has Copa de la Liga (c1423) and Supercopa (c1443), which are excluded.
+  - The Copa AUF Uruguay has its own page (`/copaaufuruguay/`, c1531–c1558 in 2026). It's not mapped, because the cup comes from Wikipedia.
 - Match counts match the stage formats in the seeds. Apertura and Clausura tables computed from AUF match RSSSF exactly (Clausura before Peñarol's −1).
 - Caveats:
   - There is no status markup. A blank score after kickoff could mean postponed or suspended, and a live match probably shows a partial score.

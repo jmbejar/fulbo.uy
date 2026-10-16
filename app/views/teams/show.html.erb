@@ -18,7 +18,7 @@
         <%= link_to "#{stage.season.competition.name} · #{stage.name}", competition_stage_path(stage.season.competition, stage), class: "text-ink" %>
       </h3>
       <% stage_matches.each do |match| %>
-        <p class="mt-2 text-[0.9em] text-ink2"><%= [ (round_label(match.round) if match.round), match_day(match.kicks_off_at&.to_date) ].compact.join(" · ") %></p>
+        <p class="mt-2 text-[0.9em] text-ink2"><%= [ (round_label(match.round, stage: match.stage) if match.round), match_day(match.kicks_off_at&.to_date) ].compact.join(" · ") %></p>
         <%= render "matches/match", match: match %>
       <% end %>
     <% end %>

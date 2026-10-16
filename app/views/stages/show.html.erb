@@ -3,14 +3,19 @@
 <% standings = params[:view] == "standings" %>
 <%= render "shared/view_switch", active: standings ? :standings : :matches,
       matches_path: competition_stage_path(@competition, @stage),
-      standings_path: competition_stage_path(@competition, @stage, view: "standings") %>
+      standings_path: competition_stage_path(@competition, @stage, view: "standings"),
+      standings_label: t("competitions.view_switch.#{@stage.format_knockout? ? "bracket" : "standings"}") %>
 
 <div class="mt-6 max-w-[46rem]">
   <% if standings %>
     <section aria-labelledby="standings-heading">
-      <h2 id="standings-heading" class="mb-3 text-[1.35em] font-bold"><%= t(".standings") %></h2>
+      <h2 id="standings-heading" class="mb-3 text-[1.35em] font-bold"><%= @stage.format_knockout? ? t(".bracket") : t(".standings") %></h2>
       <%= render "shared/tabs", competition: @competition, season: @season, active: @stage.slug %>
-      <% if @stage.format_groups? %>
+      <% if @stage.format_knockout? %>
+        <% cache [ @stage, :bracket, Date.current, @crests_version ] do %>
+          <%= render "stages/bracket", stage: @stage %>
+        <% end %>
+      <% elsif @stage.format_groups? %>
         <% @stage.groups.each do |group| %>
           <% cache [ @stage, group, @crests_version ] do %>
             <%= render "standings/table", rows: Standings::Table.for_stage(@stage, group: group).to_a, zones: @stage.zones,

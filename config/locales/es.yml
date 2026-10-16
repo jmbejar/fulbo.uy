@@ -24,6 +24,7 @@ es:
       label: "Sección"
       matches: "Partidos"
       standings: "Tabla"
+      bracket: "Cuadro"
     tabs:
       label: "Elegir tabla"
       annual: "Anual"
@@ -37,10 +38,13 @@ es:
   stages:
     show:
       standings: "Tabla de posiciones"
+      bracket: "Cuadro del torneo"
       matches: "Partidos"
       stage_matches: "Partidos · %{stage}"
       go_to: "Ir a %{round}"
       no_matches: "Todavía no hay partidos cargados para esta fase."
+    bracket:
+      to_be_defined: "A definir"
   standings:
     position: "Pos."
     team: "Equipo"
@@ -57,6 +61,8 @@ es:
     libertadores: "Copa Libertadores"
     final: "Juega la final"
     playoff: "Pasa a la siguiente fase"
+    next_round: "Pasan a la segunda fase"
+    best_third: "Puede pasar entre los mejores terceros"
     promotion: "Ascenso directo"
     promotion_playoff: "Juegan por el ascenso"
     relegation_playoff: "Juegan por la permanencia"
@@ -74,6 +80,7 @@ es:
     tomorrow: "Mañana"
     walkover_winner: "Ganó %{team} por walkover"
     penalties_winner: "%{team} ganó %{winner} a %{loser} por penales"
+    penalties: "penales %{home} a %{away}"
     status:
       live: "En juego"
       finished: "Terminado"

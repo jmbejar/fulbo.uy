@@ -4,6 +4,7 @@ Resultados y tablas de los principales torneos del fútbol uruguayo:
 - Primera División
 - Segunda División
 - Primera Amateur
+- Copa AUF Uruguay
 
 Built with Rails 8, SQLite, Hotwire and Tailwind. Code is in English; user-facing copy is in Spanish (`config/locales/es.yml`).
 
@@ -28,6 +29,7 @@ See `NOTES.md` for the research on each tournament's format, the open questions 
 | auf.org.uy | Builds the fixture: matches, rounds, dates and scores | hourly | — |
 | Tenfield Estadísticas | Scores, published first; postponements | every 15 min, newest feed page only | daily, every page |
 | es.wikipedia | Walkovers, missing results and points sanctions | hourly, only pages whose revision changed | any page |
+| es.wikipedia (Copa AUF Uruguay) | The whole cup: fixture, results and teams | hourly, only if the revision changed | any revision |
 
 - Each source files a `MatchReport` per match.
 - `Sync::Resolver` merges the reports:
@@ -39,7 +41,11 @@ See `NOTES.md` for the research on each tournament's format, the open questions 
   - AUF page per competition, AUF tournament id per stage or group.
   - Tenfield season slug per stage or season.
   - Wikipedia page per stage or season.
+  - Wikipedia page per cup season (source `wikipedia_cup`).
   - AUF club slug and crest per team, learned automatically.
+- The cup is built from Wikipedia alone (`Sync::Wikipedia::CupImporter`):
+  - It creates the cup's teams that we don't have yet (interior and Divisional D clubs).
+  - Teams are identified by the Wikipedia article they link to, not by name.
 - Team names are matched exactly (ignoring case and accents) against names and `TeamAlias`.
   - Unknown names are logged in the run summary. Add a `TeamAlias` for them.
 
@@ -47,7 +53,8 @@ See `NOTES.md` for the research on each tournament's format, the open questions 
 bin/rails sync:auf
 bin/rails sync:tenfield        # FULL=1 to walk every page
 bin/rails sync:wikipedia       # FULL=1 to ignore unchanged revisions
-bin/rails sync:all             # all three, fully
+bin/rails sync:wikipedia_cup   # FULL=1 to ignore an unchanged revision
+bin/rails sync:all             # every source, fully
 ```
 
 Each new season needs new mappings in the seeds (AUF tournament ids, Tenfield slugs, Wikipedia titles).

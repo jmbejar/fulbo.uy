@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_16_040503) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_16_120000) do
   create_table "competitions", force: :cascade do |t|
     t.string "name", null: false
     t.string "slug", null: false
@@ -148,6 +148,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_16_040503) do
     t.json "zones", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "round_names", default: [], null: false
     t.index ["season_id", "slug"], name: "index_stages_on_season_id_and_slug", unique: true
     t.index ["season_id"], name: "index_stages_on_season_id"
   end

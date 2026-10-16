@@ -246,6 +246,25 @@ ActiveRecord::Base.transaction do
     schedule!(final, round_robin(finalists.shuffle(random: rng)), starts_on: Date.new(2026, 7, 18), rng: rng)
   end
 
+  # --- Copa AUF Uruguay ----------------------------------------------------------
+  # Built entirely from Wikipedia (Sync::Wikipedia::CupImporter), which also
+  # creates the teams and the group memberships; there are no sample matches.
+  copa = Competition.find_or_create_by!(slug: "copa") { |c| c.name = "Copa AUF Uruguay"; c.tier = 4 }
+  season = copa.seasons.find_or_initialize_by(year: SEASON_YEAR)
+  season.update!(current: true)
+
+  groups_stage = season.stages.find_or_initialize_by(slug: "grupos")
+  groups_stage.update!(name: "Fase de grupos", position: 1, format: :groups,
+                       zones: [ zone(1, 2, "next_round"), zone(3, 3, "best_third") ])
+  (1..6).each { |n| groups_stage.groups.find_or_create_by!(name: "Grupo #{n}") { |g| g.position = n } }
+  # Round numbers match Sync::Wikipedia::CupImporter::KNOCKOUT_ROUNDS.
+  knockout = season.stages.find_or_initialize_by(slug: "eliminatorias")
+  knockout.update!(name: "Eliminatorias", position: 2, format: :knockout, current: true,
+                   round_names: [ "Primera fase amateur", "Segunda fase", "Octavos de final",
+                                  "Cuartos de final", "Semifinales", "Final" ])
+
+  link!(season, "wikipedia_cup", "Copa AUF Uruguay 2026")
+
   # --- Historical records for the relegation average --------------------------
   CSV.foreach(Rails.root.join("db/data/historical_2025.csv"), headers: true) do |row|
     team = Team.find_by!(slug: row["team_slug"])

@@ -1,0 +1,170 @@
+'''Copa AUF Uruguay 2026''' es la quinta edición.<ref>{{Cita web|url=https://auf.org.uy/|título=Copa}}</ref>
+
+== Fase Eliminatoria ==
+
+=== Ruta Amateur ===
+
+{{OneLegStart}}
+{{OneLegResult
+| [[Club Atlético Terremoto|Terremoto]]
+|'''0:2
+| '''{{AUF|Bella Vista}}
+|vencedor= 2
+}}
+|}
+
+{{Partidos
+|fecha              = {{fecha|09|09|2026}}, 20:00
+|local              = [[Club Atlético Terremoto|Terremoto]] [[Archivo:CA Terremoto.png|sinmarco|17x17px]]
+|resultado          = 0:2''' (0:1)
+|visita             = '''[[Club Atlético Bella Vista|Bella Vista]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = 
+}}
+
+=== Ruta Profesional ===
+
+==== Grupo 1 ====
+
+{{Partidos
+|fecha              = {{fecha|26|08|2026}}, 20:15
+|local              = [[Club Atlético Peñarol|Peñarol]]
+|resultado          = 1:0''' (0:0)
+|visita             = [[Montevideo City Torque]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = 
+}}
+{{Partidos
+|fecha              = {{fecha|26|08|2026}}, 15:00
+|local              = '''[[Danubio Fútbol Club|Danubio]]
+|resultado          = 3:2''' (3:2)
+|visita             = [[Club Atlético Atenas (San Carlos)|Atenas]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = 
+}}
+{{Partidos
+|fecha              = {{fecha|01|09|2026}}, 20:15
+|local              = '''[[Montevideo City Torque]]
+|resultado          = 2:0''' (1:0)
+|visita             = [[Danubio Fútbol Club|Danubio]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = 
+}}
+{{Partidos
+|fecha              = {{fecha|24|09|2026}}, 16:00
+|local              = [[Danubio Fútbol Club|Danubio]]
+|resultado          = 1:1 (0:1)
+|visita             = [[Club Atlético Peñarol|Peñarol]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = 
+}}
+{{Partidos
+|fecha              = {{fecha|02|09|2026}}, 20:00
+|local              = [[Club Atlético Atenas (San Carlos)|Atenas]]
+|resultado          = 2:2 (1:1)
+|visita             = [[Club Atlético Peñarol|Peñarol]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = 
+}}
+{{Partidos
+|fecha              = {{fecha|24|09|2026}}, 15:30
+|local              = [[Montevideo City Torque]]
+|resultado          = 3:3 (2:1)
+|visita             = [[Club Atlético Atenas (San Carlos)|Atenas]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = 
+}}
+
+== Segunda Etapa y Fase final ==
+
+=== Ruta Amateur ===
+
+{{Partidos
+|fecha              = {{fecha|26|09|2026}}, 15:30
+|local              = '''[[Club Nacional de Football (Florida)|Nacional (Florida)]]
+|resultado          = 2:0''' (0:0)
+|visita             = [[Rincón Fútbol Club|Rincón]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = 
+}}
+{{Partidos
+|fecha              = {{fecha|04|10|2026}}, 18:00
+|local              = '''[[Gladiador Fútbol Club|Gladiador]]
+|resultado          = 1:1''' (1:0)
+|visita             = [[Sportivo Barracas Fútbol Club|Sportivo Barracas]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|penaltis1          = Agustín Panza {{pengol}}<br/>Javier Rocha {{pengol}}
+|penaltis2          = {{pengol}} Fredi Cabrera<br/>{{penfallo|errado}} Franco Chasampi
+|resultado penalti  = 4:1
+|estado             = 
+}}
+{{Partidos
+|fecha              = {{fecha|21|10|2026}}, 21:00
+|local              = [[Club Nacional de Football (Florida)|Nacional]]
+|resultado          = 
+|visita             = [[Club Atlético Bella Vista|Bella Vista]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = 
+}}
+
+=== Ruta Profesional ===
+
+{{Partidos
+|fecha              = {{fecha|27|10|2026}}, 20:00
+|local              = [[Club Atlético Peñarol|Peñarol]]
+|resultado          = 
+|visita             = [[Montevideo City Torque]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = postergado
+}}
+
+=== Octavos de final ===
+
+* {{AUF|Peñarol}} o {{AUF|Montevideo City Torque}}
+
+== Goleadores ==
+
+{{Partidos
+|fecha              = {{fecha|01|01|2026}}
+|local              = [[Club Atlético Peñarol|Peñarol]]
+|resultado          = 9:0
+|visita             = [[Montevideo City Torque]]
+|estadio            = [[Estadio Centenario]]
+|goleslocal         = 
+* [[Eric Remedi]] {{gol|73}} 
+|golesvisita        = 
+|estado             = 
+}}

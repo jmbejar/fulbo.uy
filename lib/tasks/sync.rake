@@ -14,8 +14,13 @@ namespace :sync do
     puts "wikipedia: #{Sync.run("wikipedia", full: ENV["FULL"].present?).to_h}"
   end
 
+  desc "Build the Copa AUF Uruguay from Wikipedia (FULL=1 ignores unchanged revisions)"
+  task wikipedia_cup: :environment do
+    puts "wikipedia_cup: #{Sync.run("wikipedia_cup", full: ENV["FULL"].present?).to_h}"
+  end
+
   desc "Run every source in order, fully"
   task all: :environment do
-    %w[auf tenfield wikipedia].each { |source| puts "#{source}: #{Sync.run(source, full: true).to_h}" }
+    %w[auf tenfield wikipedia wikipedia_cup].each { |source| puts "#{source}: #{Sync.run(source, full: true).to_h}" }
   end
 end

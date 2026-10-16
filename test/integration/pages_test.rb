@@ -93,6 +93,25 @@ class PagesTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "cup knockout rounds are named and the bracket marks penalty winners" do
+    season = create_season(slug: "copa")
+    knockout = season.stages.create!(name: "Eliminatorias", slug: "eliminatorias", format: :knockout, current: true,
+                                     round_names: [ "Segunda fase", "Octavos de final" ])
+    knockout.matches.create!(home_team: @a, away_team: @b, round: 1, status: :finished,
+                             home_goals: 1, away_goals: 1, home_penalties: 3, away_penalties: 4)
+
+    get competition_path("copa")
+    assert_select "strong", "Segunda fase"
+    assert_select "nav a", "Cuadro"
+
+    get competition_stage_path("copa", "eliminatorias", view: "standings")
+    assert_select "h2", "Cuadro del torneo"
+    assert_select "h3", "Octavos de final"
+    assert_select "p", "A definir"
+    assert_select "p", "Terminado · penales 3 a 4"
+    assert_select "span.font-bold", "Nacional"
+  end
+
   test "unknown competition is not found" do
     get competition_path("tercera")
 

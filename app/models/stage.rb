@@ -11,6 +11,7 @@ class Stage < ApplicationRecord
 
   attribute :tiebreakers, default: -> { TIEBREAKERS }
   attribute :zones, default: -> { [] }
+  attribute :round_names, default: -> { [] }
 
   validates :name, :slug, presence: true
   validates :slug, uniqueness: { scope: :season_id }
@@ -29,6 +30,11 @@ class Stage < ApplicationRecord
   end
 
   def rounds = matches.distinct.order(:round).pluck(:round).compact
+
+  # Knockout stages name their rounds ("Octavos de final"); others number them.
+  def round_name(round)
+    round_names[round - 1] if round&.positive?
+  end
 
   private
 

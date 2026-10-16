@@ -1,0 +1,25 @@
+<%# locals: (stage:) %>
+<% ties = stage.matches.includes(:home_team, :away_team).chronological.group_by(&:round) %>
+<div class="flex flex-col gap-5">
+  <% stage.round_names.each.with_index(1) do |name, round| %>
+    <section aria-labelledby="round-<%= round %>-heading">
+      <h3 id="round-<%= round %>-heading" class="mb-1 border-b-2 border-line pb-1.5 font-bold"><%= name %></h3>
+      <% if ties[round] %>
+        <% ties[round].each do |match| %>
+          <div class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 border-b border-line2 px-2 py-2.5 <%= "bg-live-soft" if match.live? %>">
+            <% { home: match.home_team, away: match.away_team }.each do |side, team| %>
+              <%= link_to team_path(team), class: "flex min-w-0 items-center gap-2.5 text-ink no-underline hover:underline" do %>
+                <%= team_crest(team, size: "size-[1.6em]") %>
+                <span class="min-w-0 text-[1.15em] leading-tight break-words <%= "font-bold" if match_winner?(match, side) %>"><%= team.name %></span>
+              <% end %>
+              <span class="text-right text-[1.25em] font-bold tabular-nums <%= match.live? ? "text-live" : "text-ink" %>"><%= side == :home ? match.home_goals : match.away_goals %></span>
+            <% end %>
+            <p class="col-span-full text-[0.85em] font-bold <%= match.live? ? "text-live" : "text-ink2" %>"><%= tie_status(match) %></p>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="px-2 py-2.5 text-ink2"><%= t("stages.bracket.to_be_defined") %></p>
+      <% end %>
+    </section>
+  <% end %>
+</div>

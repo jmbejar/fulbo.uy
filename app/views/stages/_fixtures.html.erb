@@ -6,13 +6,13 @@
   <% arrow = "flex size-[2.6em] shrink-0 items-center justify-center rounded-lg border-2 border-line bg-bg text-[1.15em] leading-none font-bold no-underline" %>
   <div class="flex items-center gap-2.5 rounded-[0.6rem] border border-line2 bg-soft p-2">
     <% if previous_round %>
-      <%= link_to "‹", competition_stage_path(competition, stage, round: previous_round), class: "#{arrow} text-ink", aria: { label: t("stages.show.go_to", round: round_label(previous_round)) } %>
+      <%= link_to "‹", competition_stage_path(competition, stage, round: previous_round), class: "#{arrow} text-ink", aria: { label: t("stages.show.go_to", round: round_label(previous_round, stage: stage)) } %>
     <% else %>
       <span class="<%= arrow %> text-line" aria-hidden="true">‹</span>
     <% end %>
-    <strong class="flex-1 text-center text-[1.25em]"><%= round_label(round) %></strong>
+    <strong class="flex-1 text-center text-[1.25em]"><%= round_label(round, stage: stage) %></strong>
     <% if next_round %>
-      <%= link_to "›", competition_stage_path(competition, stage, round: next_round), class: "#{arrow} text-ink", aria: { label: t("stages.show.go_to", round: round_label(next_round)) } %>
+      <%= link_to "›", competition_stage_path(competition, stage, round: next_round), class: "#{arrow} text-ink", aria: { label: t("stages.show.go_to", round: round_label(next_round, stage: stage)) } %>
     <% else %>
       <span class="<%= arrow %> text-line" aria-hidden="true">›</span>
     <% end %>

@@ -57,7 +57,22 @@ module MatchesHelper
     relative ? "#{t("matches.#{relative}")}, #{day}" : day.upcase_first
   end
 
-  def round_label(round)
-    t("matches.round", number: round)
+  # "Fecha 3", or the round's name in a knockout stage ("Octavos de final").
+  def round_label(round, stage: nil)
+    stage&.round_name(round) || t("matches.round", number: round)
+  end
+
+  # A tie's status line in the cup bracket: "Terminado · penales 4 a 3",
+  # "En juego" or when it's played.
+  def tie_status(match)
+    case match.status
+    when "finished"
+      penalties = t("matches.penalties", home: match.home_penalties, away: match.away_penalties) if match.penalties?
+      [ t("matches.status.finished"), penalties ].compact.join(" · ")
+    when "walkover" then match_note(match)
+    when "live", "postponed", "suspended" then t("matches.status.#{match.status}")
+    else
+      [ match_day(match.kicks_off_at&.to_date), (match_time(match) if match.kicks_off_at) ].compact.join(" · ")
+    end
   end
 end
