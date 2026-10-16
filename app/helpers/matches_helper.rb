@@ -21,11 +21,11 @@ module MatchesHelper
   def match_status(match)
     case match.status
     when "live"
-      tag.span t("matches.status.live"), class: "rounded-md bg-live px-2 py-px font-bold text-on-live"
+      tag.span t("matches.status.live"), class: "rounded-md bg-live px-2 py-px text-[0.9em] font-bold tracking-wide text-on-live uppercase"
     when "postponed", "suspended"
-      tag.span t("matches.status.#{match.status}"), class: "rounded-md bg-badge px-2 py-px font-bold text-ink"
+      tag.span t("matches.status.#{match.status}"), class: "rounded-md bg-badge px-2 py-px text-[0.9em] font-bold tracking-wide text-ink uppercase"
     when "finished", "walkover"
-      tag.span t("matches.status.finished"), class: "font-bold text-ink2"
+      tag.span t("matches.status.finished"), class: "text-[0.9em] font-bold tracking-wide text-ink2 uppercase"
     else
       tag.span match_time(match), class: "font-bold"
     end

@@ -9,13 +9,13 @@
   <% widths = average ? %w[md:w-[5.2em] md:w-[6em] md:w-[7.2em]] : %w[md:w-[5.2em] md:w-[6em] md:w-[5em]] %>
   <thead>
     <tr class="border-b-2 border-ink text-ink2">
-      <th scope="col" class="hidden w-[4.2em] px-1.5 pb-1.5 text-left md:table-cell"><span class="text-[0.85em]"><%= t("standings.position") %></span></th>
-      <th scope="col" class="px-1.5 pb-1.5 text-left"><span class="text-[0.85em]"><%= t("standings.team") %></span></th>
+      <th scope="col" class="hidden w-[4.2em] px-1.5 pb-1.5 text-left md:table-cell"><span class="text-[0.8em] tracking-wide uppercase"><%= t("standings.position") %></span></th>
+      <th scope="col" class="px-1.5 pb-1.5 text-left"><span class="text-[0.8em] tracking-wide uppercase"><%= t("standings.team") %></span></th>
       <% columns = average ? %w[points played average] : %w[played goal_difference points] %>
       <% columns.zip(widths).each do |column, width| %>
         <th scope="col" class="<%= numbers %> w-px pb-1.5 align-bottom <%= width %>">
-          <span class="text-[0.85em] md:hidden"><%= t("standings.short.#{column}", default: t("standings.#{column}")) %></span>
-          <span class="hidden text-[0.85em] md:inline"><%= t("standings.#{column}") %></span>
+          <span class="text-[0.8em] tracking-wide uppercase md:hidden"><%= t("standings.short.#{column}", default: t("standings.#{column}")) %></span>
+          <span class="hidden text-[0.8em] tracking-wide uppercase md:inline"><%= t("standings.#{column}") %></span>
         </th>
       <% end %>
     </tr>
