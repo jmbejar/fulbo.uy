@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title><%= [content_for(:title), t("app.name")].compact.join(" · ") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="description" content="<%= t("app.tagline") %>">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <header class="bg-sky-700 text-white shadow">
+      <nav class="mx-auto flex max-w-5xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
+        <%= link_to t("app.name"), root_path, class: "text-xl font-extrabold tracking-tight" %>
+        <ul class="flex flex-wrap gap-4 text-sm font-medium">
+          <% Competition.by_tier.each do |competition| %>
+            <li><%= link_to competition.name, competition_path(competition), class: "hover:underline" %></li>
+          <% end %>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-4 py-6">
+      <%= yield %>
+    </main>
+
+    <footer class="mx-auto max-w-5xl px-4 pb-8 text-xs text-slate-500">
+      <p><%= t("app.tagline") %>. <%= t("app.sample_data_notice") %></p>
+    </footer>
+  </body>
+</html>

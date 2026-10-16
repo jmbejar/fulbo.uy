@@ -1,0 +1,25 @@
+<%# locals: (competition:, stage:, round:) %>
+<%= turbo_frame_tag "fixtures" do %>
+  <% if round %>
+    <% rounds = stage.rounds %>
+    <% index = rounds.index(round) %>
+    <div class="flex items-center justify-between rounded-t-lg border border-slate-200 bg-white px-3 py-2 text-sm">
+      <% if index.positive? %>
+        <%= link_to t("stages.show.previous_round"), competition_stage_path(competition, stage, round: rounds[index - 1]), class: "text-sky-700 hover:underline" %>
+      <% else %>
+        <span></span>
+      <% end %>
+      <span class="font-semibold"><%= round_label(round) %></span>
+      <% if rounds[index + 1] %>
+        <%= link_to t("stages.show.next_round"), competition_stage_path(competition, stage, round: rounds[index + 1]), class: "text-sky-700 hover:underline" %>
+      <% else %>
+        <span></span>
+      <% end %>
+    </div>
+    <ul class="divide-y divide-slate-100 rounded-b-lg border border-t-0 border-slate-200 bg-white">
+      <%= render partial: "matches/match", collection: stage.matches.where(round: round).includes(:home_team, :away_team).chronological, as: :match %>
+    </ul>
+  <% else %>
+    <p class="text-sm text-slate-500"><%= t("stages.show.no_matches") %></p>
+  <% end %>
+<% end %>

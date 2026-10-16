@@ -1,0 +1,38 @@
+<%# locals: (table:, zones: [], title: nil) %>
+<div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+  <% if title %>
+    <h3 class="border-b border-slate-200 px-3 py-2 text-sm font-semibold"><%= title %></h3>
+  <% end %>
+  <table class="w-full text-sm tabular-nums">
+    <thead class="bg-slate-100 text-xs uppercase text-slate-600">
+      <tr>
+        <th class="px-2 py-2 text-left" title="<%= t("standings.position") %>">#</th>
+        <th class="px-2 py-2 text-left"><%= t("standings.team") %></th>
+        <% %w[played won drawn lost goals_for goals_against goal_difference].each do |column| %>
+          <th class="px-2 py-2 text-center"><%= t("standings.#{column}") %></th>
+        <% end %>
+        <th class="px-2 py-2 text-center"><%= t("standings.points") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% table.each.with_index(1) do |row, position| %>
+        <tr class="border-t border-slate-100 <%= zone_row_class(zone_at(position, zones)) %>">
+          <td class="px-2 py-1.5 text-slate-500"><%= position %></td>
+          <td class="px-2 py-1.5 font-medium">
+            <%= link_to row.team.name, team_path(row.team), class: "hover:underline", data: { turbo_frame: "_top" } %>
+          </td>
+          <td class="px-2 py-1.5 text-center"><%= row.played %></td>
+          <td class="px-2 py-1.5 text-center"><%= row.won %></td>
+          <td class="px-2 py-1.5 text-center"><%= row.drawn %></td>
+          <td class="px-2 py-1.5 text-center"><%= row.lost %></td>
+          <td class="px-2 py-1.5 text-center"><%= row.goals_for %></td>
+          <td class="px-2 py-1.5 text-center"><%= row.goals_against %></td>
+          <td class="px-2 py-1.5 text-center"><%= signed(row.goal_difference) %></td>
+          <td class="px-2 py-1.5 text-center font-bold">
+            <%= row.points %><% if row.adjustment.nonzero? %><abbr class="text-red-600 no-underline" title="<%= t("standings.adjustment_note", points: signed(row.adjustment)) %>">*</abbr><% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,6 @@
+<div class="mb-4">
+  <h1 class="text-2xl font-bold"><%= competition.name %> <%= season.year %></h1>
+  <% if season.official_name.present? %>
+    <p class="text-sm text-slate-600"><%= season.official_name %></p>
+  <% end %>
+</div>

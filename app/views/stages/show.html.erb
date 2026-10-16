@@ -1,0 +1,31 @@
+<% content_for :title, "#{@stage.name} · #{@competition.name}" %>
+<%= render "shared/competition_header", competition: @competition, season: @season %>
+
+<%= turbo_frame_tag "competition" do %>
+  <%= render "shared/tabs", competition: @competition, season: @season, active: @stage.slug %>
+
+  <div class="grid gap-6 lg:grid-cols-5">
+    <section class="lg:col-span-3">
+      <h2 class="mb-2 text-lg font-semibold"><%= t(".standings") %></h2>
+      <% if @stage.format_groups? %>
+        <div class="space-y-4">
+          <% @stage.groups.each do |group| %>
+            <% cache [ @stage, group ] do %>
+              <%= render "standings/table", table: Standings::Table.for_stage(@stage, group: group), zones: @stage.zones, title: group.name %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <% cache @stage do %>
+          <%= render "standings/table", table: Standings::Table.for_stage(@stage), zones: @stage.zones %>
+        <% end %>
+      <% end %>
+      <%= zone_legend(@stage.zones) %>
+    </section>
+
+    <section class="lg:col-span-2">
+      <h2 class="mb-2 text-lg font-semibold"><%= t(".fixtures") %></h2>
+      <%= render "stages/fixtures", competition: @competition, stage: @stage, round: @round %>
+    </section>
+  </div>
+<% end %>

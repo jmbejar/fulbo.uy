@@ -1,0 +1,21 @@
+<%# locals: (match:, show_competition: false) %>
+<li class="flex items-center gap-3 px-3 py-2 text-sm">
+  <div class="w-28 shrink-0 text-xs text-slate-500">
+    <% if show_competition %>
+      <div class="font-medium text-slate-700"><%= match.stage.season.competition.name %></div>
+    <% end %>
+    <%= match_date(match) %>
+  </div>
+  <div class="flex flex-1 items-center justify-end text-right">
+    <%= link_to match.home_team.display_name, team_path(match.home_team), class: "hover:underline", data: { turbo_frame: "_top" } %>
+  </div>
+  <div class="w-20 shrink-0 text-center font-bold tabular-nums <%= "text-slate-400 font-normal" unless match.score? %>">
+    <%= match_score(match) %>
+  </div>
+  <div class="flex flex-1 items-center">
+    <%= link_to match.away_team.display_name, team_path(match.away_team), class: "hover:underline", data: { turbo_frame: "_top" } %>
+  </div>
+  <% unless match.finished? || match.scheduled? %>
+    <span class="rounded bg-amber-100 px-1.5 py-0.5 text-xs text-amber-800"><%= t("matches.status.#{match.status}") %></span>
+  <% end %>
+</li>

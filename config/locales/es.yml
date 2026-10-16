@@ -1,0 +1,81 @@
+es:
+  app:
+    name: "FulboUY"
+    tagline: "Resultados y tablas del fútbol uruguayo"
+    sample_data_notice: "Los partidos que se muestran son datos de ejemplo hasta que se conecten las fuentes oficiales."
+  time:
+    formats:
+      match: "%a %d/%m · %H:%M"
+  home:
+    index:
+      title: "Fútbol uruguayo"
+      latest_results: "Últimos resultados"
+      upcoming: "Próximos partidos"
+      leader: "Puntero del %{stage}"
+      see_standings: "Ver tabla"
+      no_matches: "No hay partidos para mostrar."
+  competitions:
+    tabs:
+      annual: "Tabla Anual"
+      relegation: "Descenso"
+    annual:
+      title: "Tabla Anual"
+      description: "Suma de %{stages}."
+    relegation:
+      title: "Tabla del descenso"
+      description: "Promedio de puntos por partido de las temporadas %{years}."
+      average: "Prom."
+      current_season: "%{year}"
+  stages:
+    show:
+      standings: "Posiciones"
+      fixtures: "Fixture"
+      previous_round: "‹ Anterior"
+      next_round: "Siguiente ›"
+      no_matches: "Todavía no hay partidos cargados para esta fase."
+  standings:
+    position: "Pos"
+    team: "Equipo"
+    played: "PJ"
+    won: "G"
+    drawn: "E"
+    lost: "P"
+    goals_for: "GF"
+    goals_against: "GC"
+    goal_difference: "DG"
+    points: "Pts"
+    adjustment_note: "Incluye %{points} pts por sanción."
+  zones:
+    champion: "Campeón de la fase"
+    libertadores: "Copa Libertadores"
+    final: "Final"
+    playoff: "Playoff"
+    promotion: "Ascenso"
+    promotion_playoff: "Reclasificatorio / repechaje de ascenso"
+    relegation_playoff: "Repechaje por la permanencia"
+    relegation: "Descenso"
+  matches:
+    vs: "vs"
+    round: "Fecha %{number}"
+    penalties_short: "pen."
+    to_be_defined: "A confirmar"
+    status:
+      scheduled: "Programado"
+      live: "En juego"
+      finished: "Final"
+      suspended: "Suspendido"
+      postponed: "Postergado"
+  teams:
+    show:
+      matches: "Partidos"
+      no_matches: "No hay partidos para este equipo."
+  activerecord:
+    errors:
+      models:
+        stage:
+          attributes:
+            tiebreakers:
+              unknown: "incluye valores desconocidos: %{list}"
+    attributes:
+      stage:
+        tiebreakers: "Criterios de desempate"

@@ -1,0 +1,21 @@
+<% content_for :title, @team.name %>
+<div class="mb-4">
+  <h1 class="text-2xl font-bold"><%= @team.name %></h1>
+  <% if @team.city.present? %>
+    <p class="text-sm text-slate-600"><%= @team.city %></p>
+  <% end %>
+</div>
+
+<h2 class="mb-2 text-lg font-semibold"><%= t(".matches") %></h2>
+<% if @matches.any? %>
+  <% @matches.group_by(&:stage).each do |stage, matches| %>
+    <h3 class="mt-4 mb-1 text-sm font-semibold text-slate-700">
+      <%= link_to "#{stage.season.competition.name} · #{stage.name}", competition_stage_path(stage.season.competition, stage), class: "hover:underline" %>
+    </h3>
+    <ul class="divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white">
+      <%= render partial: "matches/match", collection: matches, as: :match %>
+    </ul>
+  <% end %>
+<% else %>
+  <p class="text-sm text-slate-500"><%= t(".no_matches") %></p>
+<% end %>
