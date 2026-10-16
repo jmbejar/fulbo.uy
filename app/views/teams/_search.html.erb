@@ -1,5 +1,5 @@
 <%= form_with url: teams_path, method: :get, role: "search",
-      class: "relative order-4 basis-full md:order-none md:basis-[15em] lg:min-w-[9em]",
+      class: "relative order-4 hidden basis-full md:order-none md:block md:basis-[15em] lg:min-w-[9em]",
       data: { controller: "search", turbo_frame: "team_search", action: "input->search#submit keydown.esc->search#clear click@window->search#closeOutside" } do |form| %>
   <%= form.label :q, t("teams.search.label"), class: "sr-only" %>
   <%= form.search_field :q, placeholder: t("teams.search.label"), autocomplete: "off",

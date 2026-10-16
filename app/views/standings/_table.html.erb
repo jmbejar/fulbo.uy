@@ -1,26 +1,21 @@
 <%# locals: (rows:, zones: [], title: nil, caption:, average: false) %>
-<% numbers = "px-1.5 text-right" %>
+<% numbers = "px-1 text-right whitespace-nowrap md:px-1.5" %>
 <% if title %>
   <h3 class="mt-5 mb-1 border-b-2 border-line pb-1.5 font-bold"><%= title %></h3>
 <% end %>
-<table class="w-full table-fixed border-collapse tabular-nums">
+<table class="w-full border-collapse tabular-nums md:table-fixed">
   <caption class="sr-only"><%= caption %></caption>
-  <colgroup>
-    <col class="w-[2.4em] md:w-[4.2em]">
-    <col>
-    <col class="w-[3.2em] md:w-[5.2em]">
-    <col class="w-[3.2em] md:w-[6em]">
-    <col class="w-[3.8em] <%= average ? "md:w-[7.2em]" : "md:w-[5em]" %>">
-  </colgroup>
+  <%# On phones the table sizes itself to its content, so the team column never gets narrower than its longest word. Desktop widths live on the header cells rather than a colgroup, so the position column can drop out on phones without shifting them. %>
+  <% widths = average ? %w[md:w-[5.2em] md:w-[6em] md:w-[7.2em]] : %w[md:w-[5.2em] md:w-[6em] md:w-[5em]] %>
   <thead>
-    <tr class="border-b-2 border-ink text-[0.85em] text-ink2">
-      <th scope="col" class="px-1.5 pb-1.5 text-left"><%= t("standings.position") %></th>
-      <th scope="col" class="px-1.5 pb-1.5 text-left"><%= t("standings.team") %></th>
+    <tr class="border-b-2 border-ink text-ink2">
+      <th scope="col" class="hidden w-[4.2em] px-1.5 pb-1.5 text-left md:table-cell"><span class="text-[0.85em]"><%= t("standings.position") %></span></th>
+      <th scope="col" class="px-1.5 pb-1.5 text-left"><span class="text-[0.85em]"><%= t("standings.team") %></span></th>
       <% columns = average ? %w[points played average] : %w[played goal_difference points] %>
-      <% columns.each do |column| %>
-        <th scope="col" class="<%= numbers %> pb-1.5 align-bottom">
-          <span class="md:hidden"><%= t("standings.short.#{column}", default: t("standings.#{column}")) %></span>
-          <span class="hidden md:inline"><%= t("standings.#{column}") %></span>
+      <% columns.zip(widths).each do |column, width| %>
+        <th scope="col" class="<%= numbers %> w-px pb-1.5 align-bottom <%= width %>">
+          <span class="text-[0.85em] md:hidden"><%= t("standings.short.#{column}", default: t("standings.#{column}")) %></span>
+          <span class="hidden text-[0.85em] md:inline"><%= t("standings.#{column}") %></span>
         </th>
       <% end %>
     </tr>
@@ -29,7 +24,7 @@
     <tbody>
       <% if Array(zones).any? %>
         <tr>
-          <th colspan="5" scope="rowgroup" class="px-1.5 pt-4 pb-1 text-left text-[0.9em]">
+          <th colspan="4" scope="rowgroup" class="px-1.5 pt-4 pb-1 text-left text-[0.9em]">
             <span class="flex items-center gap-2">
               <span class="size-[0.85em] shrink-0 rounded-[0.15em] <%= zone_color(section.zone) %>" aria-hidden="true"></span>
               <%= section_label(section) %>
@@ -40,14 +35,15 @@
       <% section.positions.each do |position| %>
         <% row = rows[position - 1] %>
         <tr class="h-[2.75em] border-b border-line2 md:text-[1.6em]" data-zone="<%= section.zone %>">
-          <td class="px-1.5 font-bold">
+          <td class="hidden px-1.5 font-bold md:table-cell">
             <span class="flex items-center gap-1.5">
               <span class="h-[1.4em] w-[0.3em] shrink-0 rounded-[0.1em] <%= section.zone ? zone_color(section.zone) : "bg-transparent" %>" aria-hidden="true"></span><%= position %>
             </span>
           </td>
-          <td class="px-1.5 py-1">
-            <%= link_to team_path(row.team), class: "flex items-center gap-2.5 font-bold text-ink no-underline hover:underline" do %>
-              <%= team_crest(row.team, size: "size-[1.3em] md:size-[1.7em]") %><span class="min-w-0 break-words hyphens-auto"><%= row.team.name %></span>
+          <td class="py-1 pr-1.5 md:pl-1.5">
+            <%= link_to team_path(row.team), class: "flex items-center gap-1.5 text-[clamp(1em,4.9vw,1.15em)] leading-tight font-bold text-ink no-underline hover:underline md:gap-2.5 md:text-[1em]" do %>
+              <span class="h-[1.4em] w-[0.3em] shrink-0 rounded-[0.1em] md:hidden <%= section.zone ? zone_color(section.zone) : "bg-transparent" %>" aria-hidden="true"></span>
+              <%= team_crest(row.team, size: "size-[1.8em] md:size-[1.7em]") %><span class="min-w-0 break-words"><%= row.team.name %></span>
             <% end %>
           </td>
           <% if average %>
@@ -57,7 +53,7 @@
           <% else %>
             <td class="<%= numbers %>"><%= row.played %></td>
             <td class="<%= numbers %>"><%= signed(row.goal_difference) %></td>
-            <td class="<%= numbers %> text-[1.15em] font-bold">
+            <td class="<%= numbers %> text-[1.35em] font-bold md:text-[1.15em]">
               <%= row.points %><% if row.adjustment.nonzero? %><abbr class="text-live no-underline" title="<%= t("standings.adjustment_note", points: signed(row.adjustment)) %>">*</abbr><% end %>
             </td>
           <% end %>

@@ -29,12 +29,12 @@
           Fulbo<span class="rounded-[0.12em] bg-cel px-[0.3em] pt-[0.12em] pb-[0.05em] text-[0.63em] text-navy">UY</span>
         <% end %>
 
-        <nav aria-label="<%= t(".competitions") %>" class="order-3 flex basis-full flex-wrap gap-1.5 md:order-none md:basis-auto lg:shrink-0 lg:flex-nowrap">
+        <nav aria-label="<%= t(".competitions") %>" class="order-3 grid basis-full grid-cols-2 gap-1.5 md:order-none md:flex md:basis-auto md:flex-wrap lg:shrink-0 lg:flex-nowrap">
           <% Competition.by_tier.each do |competition| %>
             <% current = competition == @competition %>
             <%= link_to competition.name, competition_nav_path(competition),
                   aria: { current: ("page" if current) },
-                  class: class_names("flex min-h-[2.6em] items-center rounded-lg px-[0.95em] font-bold whitespace-nowrap no-underline",
+                  class: class_names("flex min-h-[2.6em] items-center justify-center rounded-lg px-[0.5em] font-bold whitespace-nowrap no-underline md:justify-start md:px-[0.95em]",
                     "bg-white text-navy": current,
                     "text-white hover:bg-white/15": !current) %>
           <% end %>
