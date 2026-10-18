@@ -16,7 +16,10 @@ Snapshot of the 2026 season as researched on 2026-10-15 (sources mostly updated 
 - **Championship**: two-leg semifinal between the Apertura and Clausura winners, then a two-leg final against the Anual leader.
   - ⚠ Not modelled. It is unclear whether winning both Apertura and Clausura cancels the playoff (Wikipedia) or only winning Apertura, Clausura and the Anual does (ESPN).
 - **Descenso**: points per match over 2025 + 2026; the bottom 3 go down.
-  - ⚠ How averages are computed for promoted teams is unconfirmed. We currently use only their Primera matches.
+  - The 2025 half is `db/data/historical_2025.csv`: each team's 2025 Tabla Anual points over 37 matches (es.wikipedia, "Campeonato Uruguayo de Primera División 2025"). Its Peñarol row (78 pts, 37 PJ) matches the 2026 page's descenso table.
+  - Promoted teams count only their Primera matches. es.wikipedia's 2026 descenso table does the same (Deportivo Maldonado: 59 pts in 32 PJ, 1.844).
+  - Points include sanctions: Nacional −3 (Intermedio final), Cerro −1 (Apertura fecha 13).
+  - The seeds load the CSV, but `db:prepare` only seeds a new database. After changing it, update production's `HistoricalRecord` rows with a targeted `rails runner` over `fly ssh console` rather than a full `db:seed`.
 - **Tiebreakers**: goal difference → goals for → head-to-head → lots. A tie for 1st is decided by a playoff match, which is not modelled.
 - Sources:
   - https://en.wikipedia.org/wiki/2026_Liga_AUF_Uruguaya
@@ -73,7 +76,6 @@ Always compute the Anual and relegation tables ourselves.
 
 ## Sample data
 - With `SAMPLE_MATCHES=1`, `db/seeds.rb` generates fixtures with **random results**. They are not real results, and they would collide with synced matches.
-- `db/data/historical_2025.csv` holds **sample** 2025 points that still need to be verified.
 - The seeds use a frozen "today" (`SAMPLE_TODAY = 2026-10-15`) to decide which sample matches are already played.
 
 ## Known limitations
