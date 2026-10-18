@@ -18,7 +18,8 @@ Snapshot of the 2026 season as researched on 2026-10-15 (sources mostly updated 
 - **Descenso**: points per match over 2025 + 2026; the bottom 3 go down.
   - The 2025 half is `db/data/historical_2025.csv`: each team's 2025 Tabla Anual points over 37 matches (es.wikipedia, "Campeonato Uruguayo de Primera División 2025"). Its Peñarol row (78 pts, 37 PJ) matches the 2026 page's descenso table.
   - Promoted teams count only their Primera matches. es.wikipedia's 2026 descenso table does the same (Deportivo Maldonado: 59 pts in 32 PJ, 1.844).
-  - The seeds load the CSV. `db:prepare` only seeds a new database, so after changing it run `bin/rails db:seed` against production.
+  - Points include sanctions: Nacional −3 (Intermedio final), Cerro −1 (Apertura fecha 13).
+  - The seeds load the CSV, but `db:prepare` only seeds a new database. After changing it, update production's `HistoricalRecord` rows with a targeted `rails runner` over `fly ssh console` rather than a full `db:seed`.
 - **Tiebreakers**: goal difference → goals for → head-to-head → lots. A tie for 1st is decided by a playoff match, which is not modelled.
 - Sources:
   - https://en.wikipedia.org/wiki/2026_Liga_AUF_Uruguaya
